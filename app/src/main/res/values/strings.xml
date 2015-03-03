@@ -4,5 +4,6 @@
     <string name="app_name">DiceSimulator2015</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_customization_screen">CustomizationScreen</string>
 
 </resources>
