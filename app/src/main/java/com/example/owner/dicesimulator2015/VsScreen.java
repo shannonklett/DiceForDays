@@ -30,6 +30,7 @@ public class VsScreen extends ActionBarActivity {
         setContentView(R.layout.activity_vs_screen);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+
         leftSide = (FrameLayout) this.findViewById(android.R.id.content).findViewById(R.id.leftSide);
         rightSide = (FrameLayout) this.findViewById(android.R.id.content).findViewById(R.id.rightSide);
 
