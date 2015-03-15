@@ -4,9 +4,9 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 
 public class VsScreen extends ActionBarActivity {
@@ -21,8 +23,10 @@ public class VsScreen extends ActionBarActivity {
 
     ImageView leftDie;
     ImageView rightDie;
-    FrameLayout leftSide;
+    LinearLayout leftSide;
     FrameLayout rightSide;
+    int windowwidth;
+    int windowheight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,7 @@ public class VsScreen extends ActionBarActivity {
         setContentView(R.layout.activity_vs_screen);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        leftSide = (FrameLayout) this.findViewById(android.R.id.content).findViewById(R.id.leftSide);
+        leftSide = (LinearLayout) this.findViewById(android.R.id.content).findViewById(R.id.leftSide);
         rightSide = (FrameLayout) this.findViewById(android.R.id.content).findViewById(R.id.rightSide);
 
         leftSide.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +49,43 @@ public class VsScreen extends ActionBarActivity {
                 rollRightDice(v);
             }
         });
-
         setInitialDrawables();
+        windowwidth = getWindowManager().getDefaultDisplay().getWidth();
+        windowheight = getWindowManager().getDefaultDisplay().getHeight();
+        leftDie.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int width, height;
+                LinearLayout parent = (LinearLayout) v.getParent();
+                width = parent.getWidth();
+                height = parent.getHeight();
+                LayoutParams layoutParams = (LayoutParams) leftDie.getLayoutParams();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        int x_cord = (int) event.getRawX();
+                        int y_cord = (int) event.getRawY();
+                        Log.d("Tag", Integer.toString(x_cord));
+                        if (x_cord > width) {
+                            x_cord = width;
+                        }
+                        if (y_cord > height) {
+                            y_cord = height;
+                        }
+
+                        layoutParams.leftMargin = x_cord - 75;
+                        layoutParams.topMargin = y_cord - 75;
+
+                        leftDie.setLayoutParams(layoutParams);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -97,7 +136,7 @@ public class VsScreen extends ActionBarActivity {
         for (int i = 0; i < ((ViewGroup) v).getChildCount(); ++i) {
             tempView = ((ViewGroup) v).getChildAt(i);
             if (tempView instanceof ImageView) {
-                child = (ImageView)tempView;
+                child = (ImageView) tempView;
                 randNum = (int) (Math.random() * 5);
                 if (randNum == 0) {
                     child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diered1), 150, 150));
@@ -124,7 +163,7 @@ public class VsScreen extends ActionBarActivity {
         for (int i = 0; i < ((ViewGroup) v).getChildCount(); ++i) {
             tempView = ((ViewGroup) v).getChildAt(i);
             if (tempView instanceof ImageView) {
-                child = (ImageView)tempView;
+                child = (ImageView) tempView;
                 randNum = (int) (Math.random() * 5);
                 if (randNum == 0) {
                     child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diewhite1), 150, 150));
