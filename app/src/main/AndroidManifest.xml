@@ -24,6 +24,14 @@
             android:screenOrientation="landscape"
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
+        <activity
+            android:name=".MenuFragment"
+            android:label="@string/title_activity_menu_fragment" >
+        </activity>
+        <activity
+            android:name=".CustomizationScreen"
+            android:label="@string/title_activity_customization_screen" >
+        </activity>
     </application>
 
 </manifest>

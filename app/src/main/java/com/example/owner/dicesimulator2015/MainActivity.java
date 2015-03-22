@@ -1,5 +1,8 @@
 package com.example.owner.dicesimulator2015;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -68,6 +71,42 @@ public class MainActivity extends ActionBarActivity {
     public boolean onTouchEvent(MotionEvent event) {
         this.gestureDetectorCompat.onTouchEvent(event);
         return super.onTouchEvent(event);
+    }
+
+    //fragment listener
+    public void onClickMenuListener(View v){
+        System.out.println("clicked menu");
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        MenuFragment fragment = new MenuFragment();
+        fragmentTransaction.add(R.id.fragmentContainer, fragment,"diceMenu");
+        fragmentTransaction.commit();
+
+    }
+
+    //fragment listener
+    public void onClickMenuListenerClose(View v){
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        System.out.println("closing");
+
+        Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
+
+        fragmentTransaction.remove(f);
+        fragmentTransaction.commit();
+
+    }
+    //add dice button listener inside fragment
+    public void addDice (View v) {
+        Intent j = new Intent(
+                MainActivity.this,
+                CustomizationScreen.class);
+        startActivity(j);
+
     }
 
     class OnDiceTouchListener implements OnTouchListener {
