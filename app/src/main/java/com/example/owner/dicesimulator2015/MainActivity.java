@@ -25,17 +25,21 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
 
 
-    private GestureDetectorCompat gestureDetectorCompat;
+    private GestureDetector gestureDetector;
     AbsoluteLayout dieZone;
     ArrayList<Die> dice = new ArrayList<Die>();
+    ImageView vsSlider;
+    ImageView diceSlider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        gestureDetectorCompat = new GestureDetectorCompat(this, new MyGestureListener());
         dieZone = (AbsoluteLayout) this.findViewById(android.R.id.content).findViewById(R.id.dieZone);
+        vsSlider = (ImageView)this.findViewById(android.R.id.content).findViewById(R.id.vsSlider);
+        diceSlider = (ImageView)this.findViewById(android.R.id.content).findViewById(R.id.diceSlider);
+        gestureDetector = new GestureDetector(new MyGestureListener());
         Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
         Die newDie2 = new Die(6, Color.GREEN, Color.WHITE, false);
         Die newDie3 = new Die(6, Color.RED, Color.BLUE, false);
@@ -61,13 +65,15 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-    }
 
+        vsSlider.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(final View view, final MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        this.gestureDetectorCompat.onTouchEvent(event);
-        return super.onTouchEvent(event);
     }
 
     class OnDiceTouchListener implements OnTouchListener {
