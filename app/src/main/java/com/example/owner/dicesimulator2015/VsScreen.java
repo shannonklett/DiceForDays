@@ -1,21 +1,27 @@
 package com.example.owner.dicesimulator2015;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+
+import java.util.ArrayList;
 
 
 public class VsScreen extends ActionBarActivity {
@@ -23,10 +29,12 @@ public class VsScreen extends ActionBarActivity {
 
     ImageView leftDie;
     ImageView rightDie;
-    LinearLayout leftSide;
-    FrameLayout rightSide;
-    int windowwidth;
-    int windowheight;
+    AbsoluteLayout leftSide;
+    AbsoluteLayout rightSide;
+    ArrayList<Die> leftDice = new ArrayList<Die>();
+    ArrayList<Die> rightDice = new ArrayList<Die>();
+    ImageView soloSlider;
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,54 +42,62 @@ public class VsScreen extends ActionBarActivity {
         setContentView(R.layout.activity_vs_screen);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        leftSide = (LinearLayout) this.findViewById(android.R.id.content).findViewById(R.id.leftSide);
-        rightSide = (FrameLayout) this.findViewById(android.R.id.content).findViewById(R.id.rightSide);
+        gestureDetector = new GestureDetector(new MyGestureListener());
+        leftSide = (AbsoluteLayout) this.findViewById(R.id.leftSide);
+        rightSide = (AbsoluteLayout) this.findViewById(R.id.rightSide);
+        soloSlider = (ImageView)this.findViewById(R.id.soloSlider);
+
+
+        Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
+        Die newDie2 = new Die(6, Color.GREEN, Color.WHITE, false);
+        Die newDie3 = new Die(6, Color.RED, Color.BLUE, false);
+        Die newDie4 = new Die(12, Color.CYAN, Color.BLACK, false);
+        newDie.createImageView(this);
+        newDie2.createImageView(this);
+        newDie3.createImageView(this);
+        newDie4.createImageView(this);
+
+        leftSide.addView(newDie.getImageView());
+        leftSide.addView(newDie3.getImageView());
+        rightSide.addView(newDie2.getImageView());
+        rightSide.addView(newDie4.getImageView());
+        newDie.setViewSize();
+        newDie2.setViewSize();
+        newDie3.setViewSize();
+        newDie4.setViewSize();
+        leftDice.add(newDie);
+        leftDice.add(newDie3);
+        rightDice.add(newDie2);
+        rightDice.add(newDie4);
+
+        for (Die die : leftDice) {
+            die.getImageView().setOnTouchListener(new OnDiceTouchListener());
+        }
+        for (Die die : rightDice) {
+            die.getImageView().setOnTouchListener(new OnDiceTouchListener());
+        }
 
         leftSide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rollLeftDice(v);
+                for (Die die : leftDice) {
+                    die.roll();
+                }
             }
         });
         rightSide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rollRightDice(v);
+                for (Die die : rightDice) {
+                    die.roll();
+                }
             }
         });
-        setInitialDrawables();
-        windowwidth = getWindowManager().getDefaultDisplay().getWidth();
-        windowheight = getWindowManager().getDefaultDisplay().getHeight();
-        leftDie.setOnTouchListener(new View.OnTouchListener() {
+
+        soloSlider.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int width, height;
-                LinearLayout parent = (LinearLayout) v.getParent();
-                width = parent.getWidth();
-                height = parent.getHeight();
-                LayoutParams layoutParams = (LayoutParams) leftDie.getLayoutParams();
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        int x_cord = (int) event.getRawX();
-                        int y_cord = (int) event.getRawY();
-                        Log.d("Tag", Integer.toString(x_cord));
-                        if (x_cord > width) {
-                            x_cord = width;
-                        }
-                        if (y_cord > height) {
-                            y_cord = height;
-                        }
-
-                        layoutParams.leftMargin = x_cord - 75;
-                        layoutParams.topMargin = y_cord - 75;
-
-                        leftDie.setLayoutParams(layoutParams);
-                        break;
-                    default:
-                        break;
-                }
+            public boolean onTouch(final View view, final MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
                 return true;
             }
         });
@@ -110,75 +126,68 @@ public class VsScreen extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setInitialDrawables() {
-        Drawable drawLeft = getResources().getDrawable(R.drawable.diered1);
-        drawLeft = scaleDrawable(drawLeft, 150, 150);
-        leftDie = (ImageView) findViewById(R.id.imageView);
-        leftDie.setImageDrawable(drawLeft);
 
-        Drawable drawRight = getResources().getDrawable(R.drawable.diewhite4);
-        drawRight = scaleDrawable(drawRight, 150, 150);
-        rightDie = (ImageView) findViewById(R.id.imageView2);
-        rightDie.setImageDrawable(drawRight);
+    class OnDiceTouchListener implements View.OnTouchListener {
 
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            int width, height;
+            AbsoluteLayout parent = (AbsoluteLayout) v.getParent();
+            width = parent.getWidth();
+            height = parent.getHeight();
+            AbsoluteLayout.LayoutParams layoutParams = (AbsoluteLayout.LayoutParams) v.getLayoutParams();
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    int x_cord = (int) event.getRawX();
+                    int y_cord = (int) event.getRawY();
+                    Log.d("Tag", Integer.toString(x_cord));
+                    if (parent.getLeft() > 400) {
+                        x_cord -= width;
+                        if (x_cord < 95) {
+                            x_cord = 95;
+                        }
+                    } else {
+                        if (x_cord < 75) {
+                            x_cord = 75;
+                        }
+                    }
+                    if (x_cord > width - 75) {
+                        x_cord = width - 75;
+                    }
 
-    }
+                    if (y_cord > height - 75) {
+                        y_cord = height - 75;
+                    }
+                    if (y_cord < 75) {
+                        y_cord = 75;
+                    }
 
-    private Drawable scaleDrawable(Drawable toScale, int width, int height) {
-        Bitmap bitmap = ((BitmapDrawable) toScale).getBitmap();
-        return new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, width, height, true));
-    }
+                    layoutParams.x = x_cord - 75;
+                    layoutParams.y = y_cord - 75;
 
-    private void rollLeftDice(View v) {
-        View tempView;
-        ImageView child;
-        int randNum;
-        for (int i = 0; i < ((ViewGroup) v).getChildCount(); ++i) {
-            tempView = ((ViewGroup) v).getChildAt(i);
-            if (tempView instanceof ImageView) {
-                child = (ImageView) tempView;
-                randNum = (int) (Math.random() * 5);
-                if (randNum == 0) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diered1), 150, 150));
-                } else if (randNum == 1) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diered2), 150, 150));
-                } else if (randNum == 2) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diered3), 150, 150));
-                } else if (randNum == 3) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diered4), 150, 150));
-                } else if (randNum == 4) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diered5), 150, 150));
-                } else {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diered6), 150, 150));
-                }
+                    v.setLayoutParams(layoutParams);
+                    break;
+                default:
+                    break;
             }
+            return true;
         }
-
     }
+    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-    private void rollRightDice(View v) {
-        View tempView;
-        ImageView child;
-        int randNum;
-        for (int i = 0; i < ((ViewGroup) v).getChildCount(); ++i) {
-            tempView = ((ViewGroup) v).getChildAt(i);
-            if (tempView instanceof ImageView) {
-                child = (ImageView) tempView;
-                randNum = (int) (Math.random() * 5);
-                if (randNum == 0) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diewhite1), 150, 150));
-                } else if (randNum == 1) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diewhite2), 150, 150));
-                } else if (randNum == 2) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diewhite3), 150, 150));
-                } else if (randNum == 3) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diewhite4), 150, 150));
-                } else if (randNum == 4) {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diewhite5), 150, 150));
-                } else {
-                    child.setImageDrawable(scaleDrawable(getResources().getDrawable(R.drawable.diewhite6), 150, 150));
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            if (event2.getX() < event1.getX()) {
+                try {
+                    Intent newIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivityForResult(newIntent, 0);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                } catch (Exception ex) {
                 }
             }
+            return true;
         }
     }
 }

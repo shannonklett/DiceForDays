@@ -7,7 +7,7 @@
     tools:context="com.example.owner.dicesimulator2015.VsScreen">
 
 
-    <FrameLayout
+    <AbsoluteLayout
         android:id="@+id/rightSide"
         android:layout_width="485dp"
         android:layout_height="fill_parent"
@@ -25,13 +25,19 @@
             android:background="#FF0000FF"
             android:layout_marginTop="15dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView2"
-            android:layout_gravity="center" />
+    </AbsoluteLayout>
 
-    </FrameLayout>
+    <AbsoluteLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/leftSide"
+        android:layout_toLeftOf="@+id/rightSide"
+        android:layout_toStartOf="@+id/rightSide">
+
+    </AbsoluteLayout>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -47,31 +53,12 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView6"
+        android:id="@+id/soloSlider"
         android:src="@drawable/soloslider"
         android:layout_gravity="right|center|bottom"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignWithParentIfMissing="false"
         android:layout_alignParentTop="false" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/leftSide"
-        android:layout_toLeftOf="@+id/rightSide"
-        android:layout_toStartOf="@+id/rightSide">
-
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:id="@+id/imageView"
-            android:src="@drawable/diered1"
-            android:layout_alignBottom="@+id/imageView6"
-            android:layout_marginLeft="300dp" />
-    </LinearLayout>
 
 </RelativeLayout>
