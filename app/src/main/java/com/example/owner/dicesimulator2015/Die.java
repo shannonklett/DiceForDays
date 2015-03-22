@@ -48,10 +48,15 @@ public class Die {
     public void createImageView(Context context) {
         callContext = context;
         imageView = new ImageView(context);
-        Drawable drawable = context.getDrawable(R.drawable.diewhiteblank);
+        blankFace = context.getDrawable(R.drawable.diewhiteblank);
         loadNumbers();
-        drawable.mutate().setColorFilter(sideColourFilter);
-        Drawable[] layers = {drawable, numDrawables[currentNumber-1]};
+        colourNumbers();
+        colourSides();
+        generateImage();
+    }
+
+    public void generateImage() {
+        Drawable[] layers = {blankFace, numDrawables[currentNumber-1]};
         LayerDrawable layerDrawable = new LayerDrawable(layers);
         imageView.setImageDrawable(layerDrawable);
     }
@@ -68,6 +73,14 @@ public class Die {
                 , 0, 0, 0, 1, 0 };
 
         sideColourFilter = new ColorMatrixColorFilter(matrix);
+        if (imageView != null) {
+            colourSides();
+        }
+
+    }
+
+    private void colourSides() {
+        blankFace.mutate().setColorFilter(sideColourFilter);
     }
 
     public void setNumColour(int colour) {
@@ -82,6 +95,9 @@ public class Die {
                 , 0, 0, 0, 1, 0 };
 
         numColourFilter = new ColorMatrixColorFilter(matrix);
+        if (imageView != null) {
+            colourNumbers();
+        }
     }
 
 
@@ -90,16 +106,23 @@ public class Die {
         numDrawables = new Drawable[20];
         for (int i = 0; i<20; i++) {
             numDrawables[i] = callContext.getDrawable(ID[i]);
+        }
+        colourNumbers();
+    }
+
+    private void colourNumbers() {
+        for (int i = 0; i<20; i++) {
             numDrawables[i].mutate().setColorFilter(numColourFilter);
         }
-
     }
+
     public ImageView getImageView() {
         return imageView;
     }
 
     public void roll() {
-        int randNum = (int) (Math.random() * 5);
+        currentNumber = (int) (Math.random() * (numSides)) + 1;
+        generateImage();
     }
 
     public void setViewSize() {

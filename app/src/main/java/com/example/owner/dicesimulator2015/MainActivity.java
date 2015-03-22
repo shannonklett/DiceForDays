@@ -52,6 +52,15 @@ public class MainActivity extends ActionBarActivity {
             die.getImageView().setOnTouchListener(new OnDiceTouchListener());
         }
 
+        dieZone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Die die : dice) {
+                    die.roll();
+                }
+            }
+        });
+
     }
 
 
