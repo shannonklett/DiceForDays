@@ -26,6 +26,7 @@ public class Die {
     private ImageView imageView;
     private Context callContext;
     private Drawable blankFace;
+    private Drawable overlay;
     private Drawable[] numDrawables;
 
     public Die() {
@@ -49,6 +50,7 @@ public class Die {
         callContext = context;
         imageView = new ImageView(context);
         blankFace = context.getDrawable(R.drawable.diewhiteblank);
+        overlay = context.getDrawable(R.drawable.dieoverlay);
         loadNumbers();
         colourNumbers();
         colourSides();
@@ -56,7 +58,7 @@ public class Die {
     }
 
     public void generateImage() {
-        Drawable[] layers = {blankFace, numDrawables[currentNumber-1]};
+        Drawable[] layers = {blankFace, overlay, numDrawables[currentNumber-1]};
         LayerDrawable layerDrawable = new LayerDrawable(layers);
         imageView.setImageDrawable(layerDrawable);
     }
