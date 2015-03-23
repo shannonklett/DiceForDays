@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.graphics.ColorMatrixColorFilter;
@@ -33,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
     private GestureDetector vsSliderDetector;
     private GestureDetector diceSliderDetector;
     private GestureDetector fragmentDiceSliderDetector;
+    private GestureDetector menuDiceDetector;
     AbsoluteLayout dieZone;
     ArrayList<Die> diceOnScreen = new ArrayList<Die>();
     ArrayList<Die> diceList = new ArrayList<Die>();
@@ -41,6 +43,8 @@ public class MainActivity extends ActionBarActivity {
     ImageView fragmentDiceSlider;
     Boolean menuIsOpen = false;
     GridLayout fragmentGrid;
+    Boolean didLongPress = false;
+    Die currentTouchedMenuDieIndex;
 
 
 
@@ -53,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
         vsSliderDetector = new GestureDetector(new vsSliderGestureListener());
         diceSliderDetector = new GestureDetector(new diceSliderGestureListener());
         fragmentDiceSliderDetector = new GestureDetector(new fragmentDiceSliderGestureListener());
+        menuDiceDetector = new GestureDetector(new menuDiceGestureListener());
         int colours[] = {Color.BLACK, Color.WHITE, Color.YELLOW, Color.DKGRAY, Color.RED, Color.GRAY, Color.GREEN, Color.BLUE};
         dieZone = (AbsoluteLayout) this.findViewById(R.id.dieZone);
         vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
@@ -104,9 +109,10 @@ public class MainActivity extends ActionBarActivity {
         });
 
     }
-
+    //Adds the created dice from diceList to the fragment menu
     public void addDiceToFragment() {
         fragmentGrid = (GridLayout) this.findViewById(R.id.gridLayout);
+        ((ViewGroup)fragmentGrid).removeViews(1, fragmentGrid.getChildCount() - 1);
         int currentCol = 0;
         int currentRow = 0;
         GridLayout.Spec row;
@@ -126,8 +132,10 @@ public class MainActivity extends ActionBarActivity {
             Die newDie = die.clone();
             newDie.createImageView(this);
             fragmentGrid.addView(newDie.getImageView(), gridLayoutParams);
+            newDie.getImageView().setOnTouchListener(new OnMenuDiceTouchListener(die));
             newDie.getImageView().setOnClickListener( new OnClickMenuDiceListener(newDie));
             currentCol++;
+            //fragmentGrid.addView(fragmentGrid.findViewById(R.id.addDice));
         }
     }
 
@@ -143,7 +151,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-
+    //Sets up listener on the Dice tab on the fragment menu to close it when flicked up
     public void setFragmentTouchListeners() {
         fragmentDiceSlider = (ImageView)this.findViewById(R.id.fragmentDiceSlider);
         fragmentDiceSlider.setOnTouchListener(new View.OnTouchListener() {
@@ -154,7 +162,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-
+    //Adds the given die to the screen (diceOnScreen arraylist as well)
     public void addDieToScreen(Die die) {
         Die dieToAdd = die.clone();
         dieToAdd.createImageView(this);
@@ -175,6 +183,26 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    class OnMenuDiceTouchListener implements  OnTouchListener {
+
+        Die dieClone;
+        Die indexedDie;
+
+        public OnMenuDiceTouchListener(Die indexedDie) {
+
+            this.indexedDie = indexedDie;
+        }
+
+        public boolean onTouch(View v, MotionEvent event) {
+            {
+                currentTouchedMenuDieIndex = indexedDie;
+                menuDiceDetector.onTouchEvent(event);
+                return false;
+            }
+        }
+    }
+
+    //Allows user to drag dice around the screen individually.
     class OnDiceTouchListener implements OnTouchListener {
 
         public OnDiceTouchListener() {
@@ -212,7 +240,7 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
     }
-
+    //Enables flick to transition to vs screen
     class vsSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
 
 
@@ -233,6 +261,17 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+    class menuDiceGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public void onLongPress(MotionEvent event) {
+            diceList.remove(currentTouchedMenuDieIndex);
+            addDiceToFragment();
+            didLongPress = true;
+        }
+
+    }
+    //Enables flick to open dice menu fragment
     class diceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -252,7 +291,7 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
     }
-
+    //Enables flick to close dice menu fragment
     class fragmentDiceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
