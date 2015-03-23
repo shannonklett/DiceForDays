@@ -1,5 +1,8 @@
 package com.example.owner.dicesimulator2015;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -111,6 +114,10 @@ public class VsScreen extends ActionBarActivity {
         return true;
     }
 
+    public void closeFragment() {
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -186,6 +193,45 @@ public class VsScreen extends ActionBarActivity {
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 } catch (Exception ex) {
                 }
+            }
+            return true;
+        }
+    }
+
+    class diceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            if (event2.getY() > event1.getY()) {
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
+
+                MenuFragment fragment = new MenuFragment();
+                fragmentTransaction.add(R.id.fragmentContainer, fragment,"diceMenu");
+                fragmentTransaction.commit();
+
+            }
+            return true;
+        }
+    }
+
+    class fragmentDiceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            if (event2.getY() < event1.getY()) {
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
+
+                Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
+                fragmentTransaction.remove(f);
+                fragmentTransaction.commit();
+
+
             }
             return true;
         }

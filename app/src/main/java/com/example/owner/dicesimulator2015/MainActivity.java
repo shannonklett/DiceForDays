@@ -3,6 +3,7 @@ package com.example.owner.dicesimulator2015;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -28,17 +29,29 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
 
 
-    private GestureDetectorCompat gestureDetectorCompat;
+    private GestureDetector vsSliderDetector;
+    private GestureDetector diceSliderDetector;
+    private GestureDetector fragmentDiceSliderDetector;
     AbsoluteLayout dieZone;
     ArrayList<Die> dice = new ArrayList<Die>();
+    ImageView vsSlider;
+    ImageView diceSlider;
+    ImageView fragmentDiceSlider;
+    Boolean menuIsOpen = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        gestureDetectorCompat = new GestureDetectorCompat(this, new MyGestureListener());
-        dieZone = (AbsoluteLayout) this.findViewById(android.R.id.content).findViewById(R.id.dieZone);
+        vsSliderDetector = new GestureDetector(new vsSliderGestureListener());
+        diceSliderDetector = new GestureDetector(new diceSliderGestureListener());
+        fragmentDiceSliderDetector = new GestureDetector(new fragmentDiceSliderGestureListener());
+        dieZone = (AbsoluteLayout) this.findViewById(R.id.dieZone);
+        vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
+        diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
         Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
         Die newDie2 = new Die(6, Color.GREEN, Color.WHITE, false);
         Die newDie3 = new Die(6, Color.RED, Color.BLUE, false);
@@ -64,42 +77,26 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-    }
+        vsSlider.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(final View view, final MotionEvent event) {
+                vsSliderDetector.onTouchEvent(event);
+                return true;
+            }
+        });
 
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        this.gestureDetectorCompat.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
-    //fragment listener
-    public void onClickMenuListener(View v){
-        System.out.println("clicked menu");
-
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        MenuFragment fragment = new MenuFragment();
-        fragmentTransaction.add(R.id.fragmentContainer, fragment,"diceMenu");
-        fragmentTransaction.commit();
+        diceSlider.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(final View view, final MotionEvent event) {
+                diceSliderDetector.onTouchEvent(event);
+                return true;
+            }
+        });
 
     }
 
-    //fragment listener
-    public void onClickMenuListenerClose(View v){
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        System.out.println("closing");
-
-        Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
-
-        fragmentTransaction.remove(f);
-        fragmentTransaction.commit();
-
-    }
     //add dice button listener inside fragment
     public void addDice (View v) {
         Intent j = new Intent(
@@ -107,6 +104,18 @@ public class MainActivity extends ActionBarActivity {
                 CustomizationScreen.class);
         startActivity(j);
 
+    }
+
+
+    public void setFragmentTouchListeners() {
+        fragmentDiceSlider = (ImageView)this.findViewById(R.id.fragmentDiceSlider);
+        fragmentDiceSlider.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View view, final MotionEvent event) {
+                fragmentDiceSliderDetector.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 
     class OnDiceTouchListener implements OnTouchListener {
@@ -147,7 +156,9 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+    class vsSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+
 
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
@@ -158,6 +169,49 @@ public class MainActivity extends ActionBarActivity {
                     overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 } catch (Exception ex) {
                 }
+            }
+            return true;
+        }
+    }
+
+
+
+    class diceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            if (event2.getY() > event1.getY() && !menuIsOpen) {
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
+
+                MenuFragment fragment = new MenuFragment();
+                fragmentTransaction.add(R.id.fragmentContainer, fragment,"diceMenu");
+                fragmentTransaction.commit();
+                menuIsOpen = true;
+
+            }
+            return true;
+        }
+    }
+
+    class fragmentDiceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            if (event2.getY() < event1.getY()) {
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
+
+                Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
+                fragmentTransaction.remove(f);
+                fragmentTransaction.commit();
+                menuIsOpen = false;
+
+
             }
             return true;
         }

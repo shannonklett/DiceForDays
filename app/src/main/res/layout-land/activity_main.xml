@@ -7,14 +7,25 @@
     android:id="@+id/soloScreen"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/vsSlider"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/vsslider" />
+    <!--
+    <fragment android:name="com.example.owner.test235.MenuFragment"
+     android:id="@+id/menu"
+     android:layout_weight="2"
+     android:layout_width="200dp"
+     android:layout_height="300dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentEnd="true" />
+    -->
+
+    <AbsoluteLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/dieZone">
+
+    </AbsoluteLayout>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -29,33 +40,25 @@
         android:nestedScrollingEnabled="false"
         android:clickable="true" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/vsSlider"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/vsslider" />
+
     <FrameLayout
         android:layout_weight="2"
         android:layout_width="400dp"
-        android:layout_height="250dp"
+        android:layout_height="270dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
         android:layout_alignParentEnd="true"
         android:id="@+id/fragmentContainer"></FrameLayout>
-
-    <!--
-    <fragment android:name="com.example.owner.test235.MenuFragment"
-     android:id="@+id/menu"
-     android:layout_weight="2"
-     android:layout_width="200dp"
-     android:layout_height="300dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
-        android:layout_alignParentEnd="true" />
-    -->
-    <AbsoluteLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/dieZone"></AbsoluteLayout>
 
 
 </RelativeLayout>
