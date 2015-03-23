@@ -28,7 +28,6 @@ public class MenuFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
 
     @Override
@@ -44,16 +43,14 @@ public class MenuFragment extends Fragment {
         if (currentActivity instanceof MainActivity) {
             MainActivity newActivity = (MainActivity) currentActivity;
             newActivity.setFragmentTouchListeners();
+            newActivity.addDiceToFragment();
         } else {
             VsScreen newActivity = (VsScreen) currentActivity;
             newActivity.closeFragment();
+            //newActivity.addDiceToFragment();
         }
     }
 
-
-    public MenuFragment(){
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.graphics.ColorMatrixColorFilter;
 import android.widget.AbsoluteLayout;
@@ -33,11 +34,14 @@ public class MainActivity extends ActionBarActivity {
     private GestureDetector diceSliderDetector;
     private GestureDetector fragmentDiceSliderDetector;
     AbsoluteLayout dieZone;
-    ArrayList<Die> dice = new ArrayList<Die>();
+    ArrayList<Die> diceOnScreen = new ArrayList<Die>();
+    ArrayList<Die> diceList = new ArrayList<Die>();
     ImageView vsSlider;
     ImageView diceSlider;
     ImageView fragmentDiceSlider;
     Boolean menuIsOpen = false;
+    GridLayout fragmentGrid;
+
 
 
 
@@ -49,34 +53,40 @@ public class MainActivity extends ActionBarActivity {
         vsSliderDetector = new GestureDetector(new vsSliderGestureListener());
         diceSliderDetector = new GestureDetector(new diceSliderGestureListener());
         fragmentDiceSliderDetector = new GestureDetector(new fragmentDiceSliderGestureListener());
+        int colours[] = {Color.BLACK, Color.WHITE, Color.YELLOW, Color.DKGRAY, Color.RED, Color.GRAY, Color.GREEN, Color.BLUE};
         dieZone = (AbsoluteLayout) this.findViewById(R.id.dieZone);
         vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
         diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
-        Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
+        for (int i = 0; i<8; i++) {
+            Die newDie = new Die(6, colours[i], colours[7-i], false);
+            newDie.createImageView(this);
+            diceList.add(newDie);
+        }
+        /*Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
         Die newDie2 = new Die(6, Color.GREEN, Color.WHITE, false);
         Die newDie3 = new Die(6, Color.RED, Color.BLUE, false);
         newDie.createImageView(this);
-        newDie2.createImageView(this);
+        newDie2.createImageView(this);*/
 
-        dieZone.addView(newDie.getImageView());
-        dieZone.addView(newDie2.getImageView());
-        newDie.setViewSize();
-        newDie2.setViewSize();
-        dice.add(newDie);
-        dice.add(newDie2);
-        for (Die die : dice) {
-            die.getImageView().setOnTouchListener(new OnDiceTouchListener());
-        }
-
+//        dieZone.addView(newDie.getImageView());
+//        dieZone.addView(newDie2.getImageView());
+//        newDie.setViewSize();
+//        newDie2.setViewSize();
+//        dice.add(newDie);
+//        dice.add(newDie2);
+//        for (Die die : dice) {
+//            die.getImageView().setOnTouchListener(new OnDiceTouchListener());
+//        }
+//
         dieZone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Die die : dice) {
+                for (Die die : diceOnScreen) {
                     die.roll();
                 }
             }
         });
-
+//
         vsSlider.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(final View view, final MotionEvent event) {
@@ -94,6 +104,33 @@ public class MainActivity extends ActionBarActivity {
         });
 
     }
+
+    public void addDiceToFragment() {
+        fragmentGrid = (GridLayout) this.findViewById(R.id.gridLayout);
+        int currentCol = 0;
+        int currentRow = 0;
+        GridLayout.Spec row;
+        GridLayout.Spec col;
+        GridLayout.LayoutParams gridLayoutParams;
+        for (Die die : diceList) {
+            if (currentCol > 4) {
+                currentRow++;
+                currentCol = 0;
+            }
+            row = GridLayout.spec(currentRow, 1);
+            col = GridLayout.spec(currentCol, 1);
+            gridLayoutParams = new GridLayout.LayoutParams(row, col);
+            gridLayoutParams.height = 140;
+            gridLayoutParams.width = 140;
+            gridLayoutParams.setMargins(0, 0, 10, 10);
+            Die newDie = die.clone();
+            newDie.createImageView(this);
+            fragmentGrid.addView(newDie.getImageView(), gridLayoutParams);
+            newDie.getImageView().setOnClickListener( new OnClickMenuDiceListener(newDie));
+            currentCol++;
+        }
+    }
+
 
 
 
@@ -116,6 +153,26 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
+    }
+
+    public void addDieToScreen(Die die) {
+        Die dieToAdd = die.clone();
+        dieToAdd.createImageView(this);
+        diceOnScreen.add(dieToAdd);
+        dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener());
+        dieZone.addView(dieToAdd.getImageView(), 150, 150);
+    }
+
+    class OnClickMenuDiceListener implements View.OnClickListener {
+
+        private Die die;
+        public OnClickMenuDiceListener(Die die) {
+            this.die = die;
+        }
+
+        public void onClick (View v) {
+            addDieToScreen(die);
+        }
     }
 
     class OnDiceTouchListener implements OnTouchListener {

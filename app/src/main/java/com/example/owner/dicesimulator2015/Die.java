@@ -102,6 +102,11 @@ public class Die {
         }
     }
 
+    @Override
+    public Die clone() {
+        return new Die(this.numSides, this.sideColour, this.numColour, this.pips);
+    }
+
 
     private void loadNumbers() {
         int[] ID = {R.drawable.num1white, R.drawable.num2white, R.drawable.num3white, R.drawable.num4white, R.drawable.num5white, R.drawable.num6white, R.drawable.num7white, R.drawable.num8white, R.drawable.num9white, R.drawable.num10white, R.drawable.num11white, R.drawable.num12white, R.drawable.num13white, R.drawable.num14white, R.drawable.num15white, R.drawable.num16white, R.drawable.num17white, R.drawable.num18white, R.drawable.num19white, R.drawable.num20white};
