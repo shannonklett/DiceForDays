@@ -1,9 +1,11 @@
 package com.example.owner.dicesimulator2015;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -57,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
         vsSliderDetector = new GestureDetector(new vsSliderGestureListener());
         diceSliderDetector = new GestureDetector(new diceSliderGestureListener());
         fragmentDiceSliderDetector = new GestureDetector(new fragmentDiceSliderGestureListener());
-        menuDiceDetector = new GestureDetector(new menuDiceGestureListener());
+        menuDiceDetector = new GestureDetector(new menuDiceGestureListener(this));
         int colours[] = {Color.BLACK, Color.WHITE, Color.YELLOW, Color.DKGRAY, Color.RED, Color.GRAY, Color.GREEN, Color.BLUE};
         dieZone = (AbsoluteLayout) this.findViewById(R.id.dieZone);
         vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
@@ -83,6 +85,7 @@ public class MainActivity extends ActionBarActivity {
 //            die.getImageView().setOnTouchListener(new OnDiceTouchListener());
 //        }
 //
+
         dieZone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +154,8 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+
+
     //Sets up listener on the Dice tab on the fragment menu to close it when flicked up
     public void setFragmentTouchListeners() {
         fragmentDiceSlider = (ImageView)this.findViewById(R.id.fragmentDiceSlider);
@@ -182,6 +187,23 @@ public class MainActivity extends ActionBarActivity {
             addDieToScreen(die);
         }
     }
+
+    class YesNoClickListener implements DialogInterface.OnClickListener {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    diceList.remove(currentTouchedMenuDieIndex);
+                    addDiceToFragment();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
 
     class OnMenuDiceTouchListener implements  OnTouchListener {
 
@@ -263,11 +285,17 @@ public class MainActivity extends ActionBarActivity {
 
     class menuDiceGestureListener extends GestureDetector.SimpleOnGestureListener {
 
+        Context myContext;
+        public menuDiceGestureListener(Context context) {
+            myContext = context;
+        }
+
         @Override
         public void onLongPress(MotionEvent event) {
-            diceList.remove(currentTouchedMenuDieIndex);
-            addDiceToFragment();
-            didLongPress = true;
+
+            YesNoClickListener listener = new YesNoClickListener();
+            AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
+            builder.setMessage("Delete this die?").setPositiveButton("Yes", listener).setNegativeButton("No", listener).show();
         }
 
     }
