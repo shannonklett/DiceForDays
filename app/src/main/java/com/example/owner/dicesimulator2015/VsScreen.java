@@ -1,8 +1,11 @@
 package com.example.owner.dicesimulator2015;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -20,9 +23,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,8 +41,20 @@ public class VsScreen extends ActionBarActivity {
     AbsoluteLayout rightSide;
     ArrayList<Die> leftDice = new ArrayList<Die>();
     ArrayList<Die> rightDice = new ArrayList<Die>();
+    ArrayList<Die> diceList = new ArrayList<Die>();
+    ArrayList<DieBunch> dieSaved = new ArrayList<DieBunch>();
     ImageView soloSlider;
-    private GestureDetector gestureDetector;
+    ImageView diceSlider;
+    ImageView fragmentDiceSlider;
+    Boolean menuIsOpen = false;
+    GridLayout fragmentGrid;
+    Die currentTouchedMenuDieIndex;
+    private GestureDetector soloSliderDetector;
+    private GestureDetector diceSliderDetector;
+    private GestureDetector fragmentDiceSliderDetector;
+    private GestureDetector menuDiceDetector;
+    Boolean selectingSide = false;
+    Die selectedDie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,33 +62,28 @@ public class VsScreen extends ActionBarActivity {
         setContentView(R.layout.activity_vs_screen);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        gestureDetector = new GestureDetector(new MyGestureListener());
+        soloSliderDetector = new GestureDetector(new soloSliderGestureListener());
+        diceSliderDetector = new GestureDetector(new diceSliderGestureListener());
+        fragmentDiceSliderDetector = new GestureDetector(new fragmentDiceSliderGestureListener());
+        menuDiceDetector = new GestureDetector(new menuDiceGestureListener(this));
         leftSide = (AbsoluteLayout) this.findViewById(R.id.leftSide);
         rightSide = (AbsoluteLayout) this.findViewById(R.id.rightSide);
         soloSlider = (ImageView)this.findViewById(R.id.soloSlider);
+        diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
 
+        if (this.getIntent().getStringExtra("flag") != null){
+            //update list of die in the menu
+            dieSaved = getIntent().getParcelableArrayListExtra("dieBunch");
 
-        Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
-        Die newDie2 = new Die(6, Color.GREEN, Color.WHITE, false);
-        Die newDie3 = new Die(6, Color.RED, Color.BLUE, false);
-        Die newDie4 = new Die(12, Color.CYAN, Color.BLACK, false);
-        newDie.createImageView(this);
-        newDie2.createImageView(this);
-        newDie3.createImageView(this);
-        newDie4.createImageView(this);
+            for (DieBunch point : dieSaved) {
+                diceList.add(point.getDieBunch());
+            }
 
-        leftSide.addView(newDie.getImageView());
-        leftSide.addView(newDie3.getImageView());
-        rightSide.addView(newDie2.getImageView());
-        rightSide.addView(newDie4.getImageView());
-        newDie.setViewSize();
-        newDie2.setViewSize();
-        newDie3.setViewSize();
-        newDie4.setViewSize();
-        leftDice.add(newDie);
-        leftDice.add(newDie3);
-        rightDice.add(newDie2);
-        rightDice.add(newDie4);
+        }
+        else
+        {
+           //shouldn't get here
+        }
 
         for (Die die : leftDice) {
             die.getImageView().setOnTouchListener(new OnDiceTouchListener());
@@ -83,16 +95,26 @@ public class VsScreen extends ActionBarActivity {
         leftSide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Die die : leftDice) {
-                    die.roll();
+                if (selectingSide) {
+                    addDieToScreen(selectedDie, true);
+                    selectingSide = false;
+                } else {
+                    for (Die die : leftDice) {
+                        die.roll();
+                    }
                 }
             }
         });
         rightSide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Die die : rightDice) {
-                    die.roll();
+                if (selectingSide) {
+                    addDieToScreen(selectedDie, false);
+                    selectingSide = false;
+                } else {
+                    for (Die die : rightDice) {
+                        die.roll();
+                    }
                 }
             }
         });
@@ -100,12 +122,246 @@ public class VsScreen extends ActionBarActivity {
         soloSlider.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(final View view, final MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                soloSliderDetector.onTouchEvent(event);
+                return true;
+            }
+        });
+
+        diceSlider.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View view, final MotionEvent event) {
+                diceSliderDetector.onTouchEvent(event);
                 return true;
             }
         });
 
     }
+
+    public void addDiceToFragment() {
+        fragmentGrid = (GridLayout) this.findViewById(R.id.gridLayout);
+        ((ViewGroup) fragmentGrid).removeViews(1, fragmentGrid.getChildCount() - 1);
+        int currentCol = 0;
+        int currentRow = 0;
+        GridLayout.Spec row;
+        GridLayout.Spec col;
+        GridLayout.LayoutParams gridLayoutParams;
+        for (Die die : diceList) {
+
+
+            if (currentCol > 4) {
+                currentRow++;
+                currentCol = 0;
+            }
+            row = GridLayout.spec(currentRow, 1);
+            col = GridLayout.spec(currentCol, 1);
+            gridLayoutParams = new GridLayout.LayoutParams(row, col);
+            gridLayoutParams.height = 140;
+            gridLayoutParams.width = 140;
+            gridLayoutParams.setMargins(0, 0, 10, 10);
+            Die newDie = die.clone();
+            newDie.createImageView(this);
+            fragmentGrid.addView(newDie.getImageView(), gridLayoutParams);
+            newDie.getImageView().setOnTouchListener(new OnMenuDiceTouchListener(die));
+            newDie.getImageView().setOnClickListener(new OnClickMenuDiceListener(newDie));
+            currentCol++;
+            //fragmentGrid.addView(fragmentGrid.findViewById(R.id.addDice));
+
+        }
+
+    }
+
+    public void addDice (View v) {
+        if (diceList.size() >= 9) {
+            Context context = getApplicationContext();
+            CharSequence text = "Your dice drawer is full! Delete dice before creating another!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } else {
+            Intent j = new Intent(
+                    VsScreen.this,
+                    CustomizationScreen.class);
+            saveDice();
+            j.putExtra("dieBunch", dieSaved);
+            j.putExtra("flag", "main");
+            j.putExtra("caller", "VsScreen");
+            startActivity(j);
+
+        }
+    }
+
+    public void setFragmentTouchListeners() {
+        fragmentDiceSlider = (ImageView)this.findViewById(R.id.fragmentDiceSlider);
+        fragmentDiceSlider.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View view, final MotionEvent event) {
+                fragmentDiceSliderDetector.onTouchEvent(event);
+                return true;
+            }
+        });
+    }
+
+    public void saveDice() {
+        dieSaved.clear();
+        for(Die point: diceList){
+            dieSaved.add(new DieBunch(point));
+        }
+    }
+
+    public void addDieToScreen(Die die, Boolean addToLeft) {
+
+        Die dieToAdd = die.clone();
+        dieToAdd.createImageView(this);
+        if (addToLeft) {
+            leftDice.add(dieToAdd);
+            dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener());
+            leftSide.addView(dieToAdd.getImageView(), 150, 150);
+        } else {
+            rightDice.add(dieToAdd);
+            dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener());
+            rightSide.addView(dieToAdd.getImageView(), 150, 150);
+        }
+    }
+
+    class OnClickMenuDiceListener implements View.OnClickListener {
+
+        private Die die;
+        public OnClickMenuDiceListener(Die die) {
+            this.die = die;
+        }
+
+        public void onClick (View v) {
+            if (selectingSide) {
+
+            } else {
+                selectingSide = true;
+                Context context = getApplicationContext();
+                CharSequence text = "Tap which side you want to add the to";
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                selectedDie = die;
+            }
+        }
+    }
+
+    class YesNoClickListener implements DialogInterface.OnClickListener {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    diceList.remove(currentTouchedMenuDieIndex);
+                    addDiceToFragment();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
+    class OnMenuDiceTouchListener implements View.OnTouchListener {
+
+        Die dieClone;
+        Die indexedDie;
+
+        public OnMenuDiceTouchListener(Die indexedDie) {
+
+            this.indexedDie = indexedDie;
+        }
+
+        public boolean onTouch(View v, MotionEvent event) {
+            {
+                currentTouchedMenuDieIndex = indexedDie;
+                menuDiceDetector.onTouchEvent(event);
+                return false;
+            }
+        }
+    }
+
+    class soloSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            if (event2.getX() < event1.getX()) {
+                try {
+                    saveDice();
+                    Intent newIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    newIntent.putExtra("dieBunch", dieSaved);
+                    newIntent.putExtra("flag", "vs");
+                    startActivityForResult(newIntent, 0);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                } catch (Exception ex) {
+                }
+            }
+            return true;
+        }
+    }
+
+    class menuDiceGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        Context myContext;
+        public menuDiceGestureListener(Context context) {
+            myContext = context;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent event) {
+
+            YesNoClickListener listener = new YesNoClickListener();
+            AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
+            builder.setMessage("Delete this die?").setPositiveButton("Yes", listener).setNegativeButton("No", listener).show();
+        }
+
+    }
+
+    class diceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            if (event2.getY() > event1.getY() && !menuIsOpen) {
+                diceSlider.setVisibility(View.INVISIBLE);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
+
+                MenuFragment fragment = new MenuFragment();
+                fragmentTransaction.add(R.id.fragmentContainer, fragment,"diceMenu");
+                fragmentTransaction.commit();
+                menuIsOpen = true;
+
+            }
+            return true;
+        }
+    }
+
+    class fragmentDiceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            if (event2.getY() < event1.getY()) {
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
+
+                Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
+                fragmentTransaction.remove(f);
+                fragmentTransaction.commit();
+                menuIsOpen = false;
+                diceSlider.setVisibility(View.VISIBLE);
+
+            }
+            return true;
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -178,60 +434,6 @@ public class VsScreen extends ActionBarActivity {
                     break;
                 default:
                     break;
-            }
-            return true;
-        }
-    }
-    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
-            if (event2.getX() < event1.getX()) {
-                try {
-                    Intent newIntent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivityForResult(newIntent, 0);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                } catch (Exception ex) {
-                }
-            }
-            return true;
-        }
-    }
-
-    class diceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
-            if (event2.getY() > event1.getY()) {
-
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
-
-                MenuFragment fragment = new MenuFragment();
-                fragmentTransaction.add(R.id.fragmentContainer, fragment,"diceMenu");
-                fragmentTransaction.commit();
-
-            }
-            return true;
-        }
-    }
-
-    class fragmentDiceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
-            if (event2.getY() < event1.getY()) {
-
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
-
-                Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
-                fragmentTransaction.remove(f);
-                fragmentTransaction.commit();
-
-
             }
             return true;
         }

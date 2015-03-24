@@ -191,15 +191,17 @@ public class CustomizationScreen extends ActionBarActivity {
         }
 
         String caller = getIntent().getStringExtra("caller");
-        Class callerClass = null;
-        try {
-            callerClass = Class.forName(caller);
-        } catch (ClassNotFoundException e) {
-
+        Intent j;
+        if (caller.equals("MainActivity")) {
+            j = new Intent(
+                    CustomizationScreen.this,
+                    MainActivity.class);
+        } else {
+            j = new Intent(
+                    CustomizationScreen.this,
+                    VsScreen.class);
         }
-        Intent j = new Intent(
-                CustomizationScreen.this,
-                callerClass);
+
         j.putExtra("dieBunch", dieSavedUpdated);
         j.putExtra("flag", "cust");
         startActivity(j);

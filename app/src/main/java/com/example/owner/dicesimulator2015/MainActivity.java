@@ -316,7 +316,10 @@ public class MainActivity extends ActionBarActivity {
         public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
             if (event2.getX() > event1.getX()) {
                 try {
+                    saveDice();
                     Intent newIntent = new Intent(getApplicationContext(), VsScreen.class);
+                    newIntent.putExtra("dieBunch", dieSaved);
+                    newIntent.putExtra("flag", "main");
                     startActivityForResult(newIntent, 0);
                     overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 } catch (Exception ex) {

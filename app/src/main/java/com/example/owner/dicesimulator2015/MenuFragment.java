@@ -46,8 +46,8 @@ public class MenuFragment extends Fragment {
             newActivity.addDiceToFragment();
         } else {
             VsScreen newActivity = (VsScreen) currentActivity;
-            newActivity.closeFragment();
-            //newActivity.addDiceToFragment();
+            newActivity.setFragmentTouchListeners();
+            newActivity.addDiceToFragment();
         }
     }
 
