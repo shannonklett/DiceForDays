@@ -65,6 +65,7 @@ public class MainActivity extends ActionBarActivity {
         fragmentDiceSliderDetector = new GestureDetector(new fragmentDiceSliderGestureListener());
         menuDiceDetector = new GestureDetector(new menuDiceGestureListener(this));
         int colours[] = {Color.BLACK, Color.WHITE, Color.YELLOW, Color.DKGRAY, Color.RED, Color.GRAY, Color.GREEN, Color.BLUE};
+        int sides[] = {2, 3, 4, 6, 8, 10, 12, 20};
         dieZone = (AbsoluteLayout) this.findViewById(R.id.dieZone);
         vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
         diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
@@ -85,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
             {
 
                 for (int i = 0; i<8; i++) {
-                    Die newDie = new Die(6, colours[i], colours[7 - i], false);
+                    Die newDie = new Die(sides[i], Color.RED, Color.WHITE, false);
                     newDie.createImageView(this);
                     diceList.add(newDie);
                 }

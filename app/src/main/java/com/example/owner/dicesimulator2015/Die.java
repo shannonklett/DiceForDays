@@ -51,8 +51,33 @@ public class Die implements Parcelable {
     public void createImageView(Context context) {
         callContext = context;
         imageView = new ImageView(context);
-        blankFace = context.getDrawable(R.drawable.diewhiteblank);
-        overlay = context.getDrawable(R.drawable.dieoverlay);
+        switch(numSides) {
+            case 2:     blankFace = context.getDrawable(R.drawable.d6blank);
+                        overlay = context.getDrawable(R.drawable.d6overlay);
+                        break;
+            case 4:     blankFace = context.getDrawable(R.drawable.d4blank);
+                        overlay = context.getDrawable(R.drawable.d4overlay);
+                        break;
+            case 6:     blankFace = context.getDrawable(R.drawable.d6blank);
+                        overlay = context.getDrawable(R.drawable.d6overlay);
+                        break;
+            case 8:     blankFace = context.getDrawable(R.drawable.d8blank);
+                        overlay = context.getDrawable(R.drawable.d8overlay);
+                        break;
+            case 10:    blankFace = context.getDrawable(R.drawable.d10blank);
+                        overlay = context.getDrawable(R.drawable.d10overlay);
+                        break;
+            case 12:    blankFace = context.getDrawable(R.drawable.d12blank);
+                        overlay = context.getDrawable(R.drawable.d12overlay);
+                        break;
+            case 20:    blankFace = context.getDrawable(R.drawable.d20blank);
+                        overlay = context.getDrawable(R.drawable.d20overlay);
+                        break;
+            default:    blankFace = context.getDrawable(R.drawable.d6blank);
+                        overlay = context.getDrawable(R.drawable.d6overlay);
+                        break;
+        }
+
         loadNumbers();
         colourNumbers();
         colourSides();
