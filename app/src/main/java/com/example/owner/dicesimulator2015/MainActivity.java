@@ -83,12 +83,10 @@ public class MainActivity extends ActionBarActivity {
         }
         else
             {
-
-                for (int i = 0; i<8; i++) {
-                    Die newDie = new Die(sides[i], Color.RED, Color.WHITE, false);
-                    newDie.createImageView(this);
-                    diceList.add(newDie);
-                }
+                //default dice
+                Die newDie = new Die(6,Color.WHITE, Color.BLACK, true);
+                newDie.createImageView(this);
+                diceList.add(newDie);
         }
 
         /*Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
