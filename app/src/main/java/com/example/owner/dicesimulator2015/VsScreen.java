@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -54,7 +55,9 @@ public class VsScreen extends ActionBarActivity {
     private GestureDetector fragmentDiceSliderDetector;
     private GestureDetector menuDiceDetector;
     Boolean selectingSide = false;
+    Boolean selectingLock = false;
     Die selectedDie;
+    ImageButton lockButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class VsScreen extends ActionBarActivity {
         rightSide = (AbsoluteLayout) this.findViewById(R.id.rightSide);
         soloSlider = (ImageView)this.findViewById(R.id.soloSlider);
         diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
+        lockButton = (ImageButton)this.findViewById(R.id.lockButton);
 
         if (this.getIntent().getStringExtra("flag") != null){
             //update list of die in the menu
@@ -80,16 +84,12 @@ public class VsScreen extends ActionBarActivity {
             }
 
         }
-        else
-        {
-           //shouldn't get here
-        }
 
         for (Die die : leftDice) {
-            die.getImageView().setOnTouchListener(new OnDiceTouchListener());
+            die.getImageView().setOnTouchListener(new OnDiceTouchListener(die));
         }
         for (Die die : rightDice) {
-            die.getImageView().setOnTouchListener(new OnDiceTouchListener());
+            die.getImageView().setOnTouchListener(new OnDiceTouchListener(die));
         }
 
         leftSide.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +99,11 @@ public class VsScreen extends ActionBarActivity {
                     addDieToScreen(selectedDie, true);
                     selectingSide = false;
                 } else {
+                    if (selectingLock) {
+                        selectingLock = false;
+                        lockButton.setImageDrawable(v.getContext().getDrawable(R.drawable.lockbutton));
+                    }
+
                     for (Die die : leftDice) {
                         die.roll();
                     }
@@ -112,6 +117,10 @@ public class VsScreen extends ActionBarActivity {
                     addDieToScreen(selectedDie, false);
                     selectingSide = false;
                 } else {
+                    if (selectingLock) {
+                        selectingLock = false;
+                        lockButton.setImageDrawable(v.getContext().getDrawable(R.drawable.lockbutton));
+                    }
                     for (Die die : rightDice) {
                         die.roll();
                     }
@@ -215,11 +224,11 @@ public class VsScreen extends ActionBarActivity {
         dieToAdd.createImageView(this);
         if (addToLeft) {
             leftDice.add(dieToAdd);
-            dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener());
+            dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener(dieToAdd));
             leftSide.addView(dieToAdd.getImageView(), 150, 150);
         } else {
             rightDice.add(dieToAdd);
-            dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener());
+            dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener(dieToAdd));
             rightSide.addView(dieToAdd.getImageView(), 150, 150);
         }
     }
@@ -392,6 +401,12 @@ public class VsScreen extends ActionBarActivity {
 
     class OnDiceTouchListener implements View.OnTouchListener {
 
+        Die die;
+        Boolean lockToggled = false;
+
+        public OnDiceTouchListener(Die die) {
+            this.die = die;
+        }
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             int width, height;
@@ -401,41 +416,58 @@ public class VsScreen extends ActionBarActivity {
             AbsoluteLayout.LayoutParams layoutParams = (AbsoluteLayout.LayoutParams) v.getLayoutParams();
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    if (selectingLock) {
+                        die.toggleLock();
+                    }
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    int x_cord = (int) event.getRawX();
-                    int y_cord = (int) event.getRawY();
-                    Log.d("Tag", Integer.toString(x_cord));
-                    if (parent.getLeft() > 400) {
-                        x_cord -= width;
-                        if (x_cord < 95) {
-                            x_cord = 95;
+                    if (!selectingLock) {
+                        int x_cord = (int) event.getRawX();
+                        int y_cord = (int) event.getRawY();
+                        Log.d("Tag", Integer.toString(x_cord));
+                        if (parent.getLeft() > 400) {
+                            x_cord -= width;
+                            if (x_cord < 95) {
+                                x_cord = 95;
+                            }
+                        } else {
+                            if (x_cord < 75) {
+                                x_cord = 75;
+                            }
                         }
-                    } else {
-                        if (x_cord < 75) {
-                            x_cord = 75;
+                        if (x_cord > width - 75) {
+                            x_cord = width - 75;
                         }
-                    }
-                    if (x_cord > width - 75) {
-                        x_cord = width - 75;
-                    }
 
-                    if (y_cord > height - 75) {
-                        y_cord = height - 75;
-                    }
-                    if (y_cord < 75) {
-                        y_cord = 75;
-                    }
+                        if (y_cord > height - 75) {
+                            y_cord = height - 75;
+                        }
+                        if (y_cord < 75) {
+                            y_cord = 75;
+                        }
 
-                    layoutParams.x = x_cord - 75;
-                    layoutParams.y = y_cord - 75;
+                        layoutParams.x = x_cord - 75;
+                        layoutParams.y = y_cord - 75;
 
-                    v.setLayoutParams(layoutParams);
+                        v.setLayoutParams(layoutParams);
+                    }
                     break;
                 default:
                     break;
             }
+
             return true;
+
         }
+    }
+    public void toggleLockMode(View v) {
+        if (!selectingSide) {
+            selectingLock = !selectingLock;
+            if (selectingLock)
+                lockButton.setImageDrawable(this.getDrawable(R.drawable.lockbuttonselected));
+            else
+                lockButton.setImageDrawable(this.getDrawable(R.drawable.lockbutton));
+        }
+
     }
 }

@@ -31,6 +31,8 @@ public class Die implements Parcelable {
     private Drawable overlay;
     private Drawable[] numDrawables;
     private Drawable[] pipDrawables;
+    private Drawable lockDrawable;
+    private Boolean locked = false;
 
     public Die() {
         this(6, Color.WHITE, Color.BLACK, false);
@@ -51,10 +53,17 @@ public class Die implements Parcelable {
         }
     }
 
+    public void toggleLock() {
+        locked = !locked;
+        generateImage();
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void createImageView(Context context) {
+
         callContext = context;
         imageView = new ImageView(context);
+        lockDrawable = context.getDrawable(R.drawable.lock);
         setNumSides(numSides);
         setPips(pips);
         loadNumbers();
@@ -64,17 +73,30 @@ public class Die implements Parcelable {
     }
 
     public void generateImage() {
-        Drawable layers[] = new Drawable[3];
-        layers[0] = blankFace;
-        layers[1] = overlay;
-        if (pips) {
-            layers[2] = pipDrawables[currentNumber-1];
+        if (locked) {
+            Drawable layers[] = new Drawable[4];
+            layers[0] = blankFace;
+            layers[1] = overlay;
+            if (pips) {
+                layers[2] = pipDrawables[currentNumber-1];
+            } else {
+                layers[2] = numDrawables[currentNumber-1];
+            }
+            layers[3] = lockDrawable;
+            LayerDrawable layerDrawable = new LayerDrawable(layers);
+            imageView.setImageDrawable(layerDrawable);
         } else {
-            layers[2] = numDrawables[currentNumber-1];
+            Drawable layers[] = new Drawable[3];
+            layers[0] = blankFace;
+            layers[1] = overlay;
+            if (pips) {
+                layers[2] = pipDrawables[currentNumber-1];
+            } else {
+                layers[2] = numDrawables[currentNumber-1];
+            }
+            LayerDrawable layerDrawable = new LayerDrawable(layers);
+            imageView.setImageDrawable(layerDrawable);
         }
-
-        LayerDrawable layerDrawable = new LayerDrawable(layers);
-        imageView.setImageDrawable(layerDrawable);
     }
 
     public void setSideColour(int colour) {
@@ -200,8 +222,11 @@ public class Die implements Parcelable {
     }
 
     public void roll() {
-        currentNumber = (int) (Math.random() * (numSides)) + 1;
-        generateImage();
+        if (!locked) {
+            currentNumber = (int) (Math.random() * (numSides)) + 1;
+            generateImage();
+        }
+
     }
 
     public void setViewSize() {
