@@ -341,7 +341,6 @@
                             android:weightSum="1"
                             android:padding="0dp"
                             android:id="@+id/SidesGroup"
-                            android:onClick="onRadioButtonClicked"
                             android:layout_gravity="right|center_vertical"
                             android:layout_marginRight="15dp" >
 
@@ -350,7 +349,7 @@
                                 android:layout_height="70dp"
                                 android:id="@+id/sides2"
                                 android:button="@null"
-                                android:background="@drawable/diered2"
+                                android:background="@drawable/d2full"
                                 android:layout_marginLeft="0dp" />
 
                             <RadioButton
@@ -358,7 +357,7 @@
                                 android:layout_height="70dp"
                                 android:id="@+id/sides4"
                                 android:button="@null"
-                                android:background="@drawable/diered2"
+                                android:background="@drawable/d4full"
                                 android:layout_marginLeft="5dp" />
 
                             <RadioButton
@@ -366,7 +365,7 @@
                                 android:layout_height="70dp"
                                 android:id="@+id/sides6"
                                 android:button="@null"
-                                android:background="@drawable/diered2"
+                                android:background="@drawable/d6full"
                                 android:layout_marginLeft="5dp" />
 
                             <RadioButton
@@ -374,7 +373,7 @@
                                 android:layout_height="70dp"
                                 android:id="@+id/sides8"
                                 android:button="@null"
-                                android:background="@drawable/diered2"
+                                android:background="@drawable/d8full"
                                 android:layout_marginLeft="5dp" />
 
                             <RadioButton
