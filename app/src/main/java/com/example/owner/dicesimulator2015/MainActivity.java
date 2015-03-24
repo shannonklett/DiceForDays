@@ -342,7 +342,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
             if (event2.getY() > event1.getY() && !menuIsOpen) {
-
+                diceSlider.setVisibility(View.INVISIBLE);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
@@ -371,7 +371,7 @@ public class MainActivity extends ActionBarActivity {
                 fragmentTransaction.remove(f);
                 fragmentTransaction.commit();
                 menuIsOpen = false;
-
+                diceSlider.setVisibility(View.VISIBLE);
 
             }
             return true;
