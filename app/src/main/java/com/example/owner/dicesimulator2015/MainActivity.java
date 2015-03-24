@@ -45,7 +45,6 @@ public class MainActivity extends ActionBarActivity {
     ImageView fragmentDiceSlider;
     Boolean menuIsOpen = false;
     GridLayout fragmentGrid;
-    Boolean didLongPress = false;
     Die currentTouchedMenuDieIndex;
 
 
