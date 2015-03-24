@@ -45,7 +45,7 @@
                         <Switch
                             android:layout_width="180dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/switch1"
+                            android:id="@+id/pipSwitch"
                             android:layout_gravity="left"
                             android:layout_marginLeft="25dp"
                             android:onClick="onSwitchClicked" />

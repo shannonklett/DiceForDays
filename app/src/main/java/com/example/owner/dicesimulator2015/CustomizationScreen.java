@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Switch;
@@ -21,6 +22,9 @@ public class CustomizationScreen extends ActionBarActivity {
     int sideColour =Color.RED;
     int numColour= Color.BLACK;
     Boolean pips = false;
+    Die preview;
+    Switch pipSwitch;
+
 
     ArrayList<DieBunch> diceList;
     private ArrayList<Die> dieSaved = new ArrayList<Die>();
@@ -33,7 +37,15 @@ public class CustomizationScreen extends ActionBarActivity {
         System.out.println("hello");
 
         //saved list of dice from menu
+        pipSwitch = (Switch)this.findViewById(R.id.pipSwitch);
+        pipSwitch.setEnabled(false);
         diceList = getIntent().getParcelableArrayListExtra("dieBunch");
+        preview = new Die(numSides, sideColour, numColour, pips);
+        preview.createImageView(this);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(150, 150);
+        params.leftMargin = 300;
+        params.topMargin = 500;
+        ((FrameLayout)this.findViewById(R.id.demoDiceFrame)).addView(preview.getImageView(), params);
         for(DieBunch point: diceList){
             dieSaved.add(point.getDieBunch());
         }
@@ -52,13 +64,13 @@ public class CustomizationScreen extends ActionBarActivity {
             System.out.println("off");
             pips = false;
         }
+        updatePreview();
     }
 
     //Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
     public void onClickFaceListener(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
-
         // Check which radio button was clicked
         switch(view.getId()) {
             case R.id.redFace:
@@ -96,6 +108,7 @@ public class CustomizationScreen extends ActionBarActivity {
                     sideColour = Color.WHITE;
                     break;
         }
+        updatePreview();
     }
 
     public void onClickNumberListener(View view) {
@@ -139,6 +152,7 @@ public class CustomizationScreen extends ActionBarActivity {
                     numColour = Color.WHITE;
                     break;
         }
+        updatePreview();
     }
 
     public void onClickSidesListener(View view) {
@@ -178,6 +192,12 @@ public class CustomizationScreen extends ActionBarActivity {
                     numSides = 20;
                     break;
         }
+        if (numSides == 6) {
+            pipSwitch.setEnabled(true);
+        } else {
+            pipSwitch.setEnabled(false);
+        }
+        updatePreview();
     }
 
     public void onClickAddDiceListener(View v){
@@ -215,6 +235,13 @@ public class CustomizationScreen extends ActionBarActivity {
                 MainActivity.class);
         startActivity(j);
         finish();
+    }
+
+    public void updatePreview() {
+        preview.setNumColour(numColour);
+        preview.setNumSides(numSides);
+        preview.setSideColour(sideColour);
+        preview.generateImage();
     }
 
 

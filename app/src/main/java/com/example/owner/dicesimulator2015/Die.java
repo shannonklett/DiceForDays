@@ -45,39 +45,17 @@ public class Die implements Parcelable {
         setSideColour(sideColour);
         this.pips = pips;
         currentNumber = numSides;
+        if (numSides != 6) {
+            pips = false;
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void createImageView(Context context) {
         callContext = context;
         imageView = new ImageView(context);
-        switch(numSides) {
-            case 2:     blankFace = context.getDrawable(R.drawable.d2blank);
-                        overlay = context.getDrawable(R.drawable.d2overlay);
-                        break;
-            case 4:     blankFace = context.getDrawable(R.drawable.d4blank);
-                        overlay = context.getDrawable(R.drawable.d4overlay);
-                        break;
-            case 6:     blankFace = context.getDrawable(R.drawable.d6blank);
-                        overlay = context.getDrawable(R.drawable.d6overlay);
-                        break;
-            case 8:     blankFace = context.getDrawable(R.drawable.d8blank);
-                        overlay = context.getDrawable(R.drawable.d8overlay);
-                        break;
-            case 10:    blankFace = context.getDrawable(R.drawable.d10blank);
-                        overlay = context.getDrawable(R.drawable.d10overlay);
-                        break;
-            case 12:    blankFace = context.getDrawable(R.drawable.d12blank);
-                        overlay = context.getDrawable(R.drawable.d12overlay);
-                        break;
-            case 20:    blankFace = context.getDrawable(R.drawable.d20blank);
-                        overlay = context.getDrawable(R.drawable.d20overlay);
-                        break;
-            default:    blankFace = context.getDrawable(R.drawable.d6blank);
-                        overlay = context.getDrawable(R.drawable.d6overlay);
-                        break;
-        }
-
+        setNumSides(numSides);
+        setPips(pips);
         loadNumbers();
         colourNumbers();
         colourSides();
@@ -126,6 +104,55 @@ public class Die implements Parcelable {
         numColourFilter = new ColorMatrixColorFilter(matrix);
         if (imageView != null) {
             colourNumbers();
+        }
+    }
+
+    public void setNumSides(int num) {
+        numSides = num;
+        currentNumber = numSides;
+        if (numSides != 6) {
+            pips = false;
+        }
+        switch(numSides) {
+            case 2:
+                blankFace = callContext.getDrawable(R.drawable.d2blank);
+                overlay = callContext.getDrawable(R.drawable.d2overlay);
+                break;
+            case 4:
+                blankFace = callContext.getDrawable(R.drawable.d4blank);
+                overlay = callContext.getDrawable(R.drawable.d4overlay);
+                break;
+            case 6:
+                blankFace = callContext.getDrawable(R.drawable.d6blank);
+                overlay = callContext.getDrawable(R.drawable.d6overlay);
+                break;
+            case 8:
+                blankFace = callContext.getDrawable(R.drawable.d8blank);
+                overlay = callContext.getDrawable(R.drawable.d8overlay);
+                break;
+            case 10:
+                blankFace = callContext.getDrawable(R.drawable.d10blank);
+                overlay = callContext.getDrawable(R.drawable.d10overlay);
+                break;
+            case 12:
+                blankFace = callContext.getDrawable(R.drawable.d12blank);
+                overlay = callContext.getDrawable(R.drawable.d12overlay);
+                break;
+            case 20:
+                blankFace = callContext.getDrawable(R.drawable.d20blank);
+                overlay = callContext.getDrawable(R.drawable.d20overlay);
+                break;
+            default:
+                blankFace = callContext.getDrawable(R.drawable.d6blank);
+                overlay = callContext.getDrawable(R.drawable.d6overlay);
+                break;
+        }
+    }
+
+    public void setPips(Boolean pip) {
+        pips = pip;
+        if (numSides != 6) {
+            pips = false;
         }
     }
 
