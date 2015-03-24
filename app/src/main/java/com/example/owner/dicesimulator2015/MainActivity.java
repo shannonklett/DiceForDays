@@ -71,15 +71,15 @@ public class MainActivity extends ActionBarActivity {
 
         System.out.println("outside if");
         System.out.println("er extras");
-        if (this.getIntent().getExtras() != null){
+        if (this.getIntent().getStringExtra("flag") != null){
             //update list of die in the menu
             System.out.println("from cust");
             dieSaved = getIntent().getParcelableArrayListExtra("dieBunch");
-            if (dieSaved != null) {
+
                 for (DieBunch point : dieSaved) {
                     diceList.add(point.getDieBunch());
                 }
-            }
+
         }
         else
             {
