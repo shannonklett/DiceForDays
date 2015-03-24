@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.graphics.ColorMatrixColorFilter;
 import android.widget.AbsoluteLayout;
 import android.widget.AbsoluteLayout.LayoutParams;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -178,15 +179,24 @@ public class MainActivity extends ActionBarActivity {
 
     //add dice button listener inside fragment
     public void addDice (View v) {
-        Intent j = new Intent(
-                MainActivity.this,
-                CustomizationScreen.class);
-        saveDice();
-        j.putExtra("dieBunch", dieSaved);
-        j.putExtra("flag", "main");
-        startActivity(j);
+        if (diceList.size() >= 9) {
+            Context context = getApplicationContext();
+            CharSequence text = "Your dice drawer is full! Delete dice before creating another!";
+            int duration = Toast.LENGTH_SHORT;
 
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } else {
+            Intent j = new Intent(
+                    MainActivity.this,
+                    CustomizationScreen.class);
+            saveDice();
+            j.putExtra("dieBunch", dieSaved);
+            j.putExtra("flag", "main");
+            j.putExtra("caller", "MainActivity");
+            startActivity(j);
 
+        }
     }
 
 
