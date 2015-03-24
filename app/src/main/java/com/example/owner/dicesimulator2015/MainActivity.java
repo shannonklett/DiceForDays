@@ -69,14 +69,16 @@ public class MainActivity extends ActionBarActivity {
         vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
         diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
 
-        System.out.println("outside if");;
+        System.out.println("outside if");
         System.out.println("er extras");
         if (this.getIntent().getExtras() != null){
             //update list of die in the menu
             System.out.println("from cust");
             dieSaved = getIntent().getParcelableArrayListExtra("dieBunch");
-            for (DieBunch point : dieSaved) {
-                diceList.add(point.getDieBunch());
+            if (dieSaved != null) {
+                for (DieBunch point : dieSaved) {
+                    diceList.add(point.getDieBunch());
+                }
             }
         }
         else
