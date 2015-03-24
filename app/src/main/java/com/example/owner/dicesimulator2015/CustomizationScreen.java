@@ -19,7 +19,7 @@ public class CustomizationScreen extends ActionBarActivity {
     //default
     int numSides = 2 ;
     int sideColour =Color.RED;
-    int numColour= Color.GRAY;
+    int numColour= Color.BLACK;
     Boolean pips = false;
 
     ArrayList<DieBunch> diceList;

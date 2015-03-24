@@ -89,7 +89,8 @@
                                 android:background="@drawable/redradio"
                                 android:onClick="onClickFaceListener"
                                 android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp" />
+                                android:layout_marginRight="10dp"
+                                android:checked="true" />
 
                             <RadioButton
                                 android:layout_width="wrap_content"
@@ -235,7 +236,8 @@
                                 android:background="@drawable/blackaradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:onClick="onClickNumberListener" />
+                                android:onClick="onClickNumberListener"
+                                android:checked="true" />
 
                             <RadioButton
                                 android:layout_width="wrap_content"
