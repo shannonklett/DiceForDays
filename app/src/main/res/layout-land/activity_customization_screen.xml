@@ -1,0 +1,491 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.owner.dicesimulator2015.CustomizationScreen">
+
+        <AbsoluteLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/dieZone">
+
+            <FrameLayout
+                android:layout_width="340dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/demoDiceFrame"></FrameLayout>
+
+            <FrameLayout
+                android:layout_width="590dp"
+                android:layout_height="fill_parent"
+                android:layout_x="350dp"
+                android:layout_y="0dp"
+                android:id="@+id/customFrame">
+
+                <TableLayout
+                    android:layout_width="507dp"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_horizontal|top">
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="25dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Pips"
+                            android:id="@+id/Pips" />
+
+                        <Switch
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/switch1"
+                            android:layout_gravity="left"
+                            android:layout_marginLeft="25dp"
+                            android:onClick="onSwitchClicked" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="25dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Face"
+                            android:id="@+id/Face" />
+
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="70dp"
+                            android:layout_x="473dp"
+                            android:layout_y="147dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1"
+                            android:padding="0dp"
+                            android:id="@+id/faceGroup"
+
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginRight="15dp">
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/redFace"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#FF0000"
+                                android:onClick="onClickFaceListener"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/orangeFace"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#FFA500"
+                                android:onClick="onClickFaceListener"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/yellowFace"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#FFFF00"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickFaceListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/greenFace"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#009900"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickFaceListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/lBlueFace"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#00ffff"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickFaceListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/dBlueFace"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#0000CC"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickFaceListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/purpleFace"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#990099"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickFaceListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/pinkFace"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#FF00FF"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickFaceListener" />
+
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="25dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Number"
+                            android:id="@+id/Number" />
+
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="60dp"
+                            android:layout_x="477dp"
+                            android:layout_y="251dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1"
+                            android:padding="0dp"
+                            android:id="@+id/pipsGroup"
+                            android:layout_gravity="right"
+                            android:layout_marginRight="15dp">
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/redPip"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#FF0000"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickNumberListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/orangePip"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#FFA500"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickNumberListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/yellowPip"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#FFFF00"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickNumberListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/greenPip"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#009900"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickNumberListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/lBluePip"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#00ffff"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickNumberListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/dBluePip"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#0000CC"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickNumberListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/purplePip"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#990099"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickNumberListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/pinkPip"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#FF00FF"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickNumberListener" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="25dp" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Sides"
+                            android:id="@+id/Sides" />
+
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="70dp"
+                            android:layout_x="473dp"
+                            android:layout_y="147dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1"
+                            android:padding="0dp"
+                            android:id="@+id/SidesGroup"
+                            android:onClick="onRadioButtonClicked"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginRight="15dp" >
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sides2"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#ffffff"
+                                android:onClick="onClickSidesListener"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sides3"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#ffffff"
+                                android:onClick="onClickSidesListener"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sides4"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#ffffff"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickSidesListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sides6"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#ffffff"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickSidesListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sides8"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#ffffff"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickSidesListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sides10"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#ffffff"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickSidesListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sides12"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#ffffff"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickSidesListener" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sides20"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:padding="0dp"
+                                android:background="#ffffff"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="onClickSidesListener" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="60dp"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="35dp">
+
+                        <TextView
+                            android:layout_width="300dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:id="@+id/textView" />
+
+                        <Button
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cancel"
+                            android:id="@+id/cancel"
+                            android:onClick="onClickCancelListener" />
+
+                        <Button
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Dice"
+                            android:id="@+id/addDice"
+                            android:layout_gravity="right"
+                            android:onClick="onClickAddDiceListener" />
+                    </LinearLayout>
+
+                </TableLayout>
+            </FrameLayout>
+
+        </AbsoluteLayout>
+
+
+</RelativeLayout>
