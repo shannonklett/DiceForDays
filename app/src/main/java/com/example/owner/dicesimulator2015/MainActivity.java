@@ -70,11 +70,9 @@ public class MainActivity extends ActionBarActivity {
         vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
         diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
 
-        System.out.println("outside if");
-        System.out.println("er extras");
+        //returning from vs screen or customization screen
         if (this.getIntent().getStringExtra("flag") != null){
             //update list of die in the menu
-            System.out.println("from cust");
             dieSaved = getIntent().getParcelableArrayListExtra("dieBunch");
 
                 for (DieBunch point : dieSaved) {
@@ -90,7 +88,6 @@ public class MainActivity extends ActionBarActivity {
                     newDie.createImageView(this);
                     diceList.add(newDie);
                 }
-                System.out.println("else");
         }
 
         /*Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
@@ -186,6 +183,7 @@ public class MainActivity extends ActionBarActivity {
                 CustomizationScreen.class);
         saveDice();
         j.putExtra("dieBunch", dieSaved);
+        j.putExtra("flag", "main");
         startActivity(j);
 
 
