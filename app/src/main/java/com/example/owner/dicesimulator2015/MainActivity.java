@@ -91,9 +91,6 @@ public class MainActivity extends ActionBarActivity {
                     diceList.add(newDie);
                 }
                 System.out.println("else");
-                for(Die point: diceList){
-                    dieSaved.add(new DieBunch(point));
-                }
         }
 
         /*Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
@@ -174,12 +171,20 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    public void saveDice() {
+        dieSaved.clear();
+        for(Die point: diceList){
+            dieSaved.add(new DieBunch(point));
+        }
+    }
+
 
     //add dice button listener inside fragment
     public void addDice (View v) {
         Intent j = new Intent(
                 MainActivity.this,
                 CustomizationScreen.class);
+        saveDice();
         j.putExtra("dieBunch", dieSaved);
         startActivity(j);
 
