@@ -195,6 +195,8 @@ public class CustomizationScreen extends ActionBarActivity {
         if (numSides == 6) {
             pipSwitch.setEnabled(true);
         } else {
+            pipSwitch.setChecked(false);
+            pips = false;
             pipSwitch.setEnabled(false);
         }
         updatePreview();
@@ -241,6 +243,7 @@ public class CustomizationScreen extends ActionBarActivity {
         preview.setNumColour(numColour);
         preview.setNumSides(numSides);
         preview.setSideColour(sideColour);
+        preview.setPips(pips);
         preview.generateImage();
     }
 

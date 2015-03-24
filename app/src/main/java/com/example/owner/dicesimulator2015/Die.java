@@ -30,6 +30,7 @@ public class Die implements Parcelable {
     private Drawable blankFace;
     private Drawable overlay;
     private Drawable[] numDrawables;
+    private Drawable[] pipDrawables;
 
     public Die() {
         this(6, Color.WHITE, Color.BLACK, false);
@@ -63,7 +64,15 @@ public class Die implements Parcelable {
     }
 
     public void generateImage() {
-        Drawable[] layers = {blankFace, overlay, numDrawables[currentNumber-1]};
+        Drawable layers[] = new Drawable[3];
+        layers[0] = blankFace;
+        layers[1] = overlay;
+        if (pips) {
+            layers[2] = pipDrawables[currentNumber-1];
+        } else {
+            layers[2] = numDrawables[currentNumber-1];
+        }
+
         LayerDrawable layerDrawable = new LayerDrawable(layers);
         imageView.setImageDrawable(layerDrawable);
     }
@@ -168,12 +177,21 @@ public class Die implements Parcelable {
         for (int i = 0; i<20; i++) {
             numDrawables[i] = callContext.getDrawable(ID[i]);
         }
+        int pipID[] = {R.drawable.pip1, R.drawable.pip2, R.drawable.pip3, R.drawable.pip4, R.drawable.pip5, R.drawable.pip6};
+        pipDrawables = new Drawable[6];
+        for (int i = 0; i<6; i++) {
+            pipDrawables[i] = callContext.getDrawable(pipID[i]);
+        }
+
         colourNumbers();
     }
 
     private void colourNumbers() {
         for (int i = 0; i<20; i++) {
             numDrawables[i].mutate().setColorFilter(numColourFilter);
+        }
+        for (int i = 0; i<6; i++) {
+            pipDrawables[i].mutate().setColorFilter(numColourFilter);
         }
     }
 
