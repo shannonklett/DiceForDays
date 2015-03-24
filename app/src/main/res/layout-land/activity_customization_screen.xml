@@ -67,7 +67,7 @@
 
                         <RadioGroup
                             android:layout_width="wrap_content"
-                            android:layout_height="70dp"
+                            android:layout_height="50dp"
                             android:layout_x="473dp"
                             android:layout_y="147dp"
                             android:orientation="horizontal"
@@ -86,7 +86,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#FF0000"
+                                android:background="@drawable/redradio"
                                 android:onClick="onClickFaceListener"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp" />
@@ -99,7 +99,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#FFA500"
+                                android:background="@drawable/blackaradio"
                                 android:onClick="onClickFaceListener"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp" />
@@ -112,7 +112,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#FFFF00"
+                                android:background="@drawable/yelloweradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickFaceListener" />
@@ -125,7 +125,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#009900"
+                                android:background="@drawable/greenradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickFaceListener" />
@@ -138,7 +138,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#00ffff"
+                                android:background="@drawable/cyanradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickFaceListener" />
@@ -151,7 +151,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#0000CC"
+                                android:background="@drawable/blueradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickFaceListener" />
@@ -164,7 +164,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#990099"
+                                android:background="@drawable/magentaradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickFaceListener" />
@@ -177,7 +177,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#FF00FF"
+                                android:background="@drawable/whiteradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickFaceListener" />
@@ -201,7 +201,7 @@
 
                         <RadioGroup
                             android:layout_width="wrap_content"
-                            android:layout_height="60dp"
+                            android:layout_height="50dp"
                             android:layout_x="477dp"
                             android:layout_y="251dp"
                             android:orientation="horizontal"
@@ -219,7 +219,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#FF0000"
+                                android:background="@drawable/redradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickNumberListener" />
@@ -232,7 +232,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#FFA500"
+                                android:background="@drawable/blackaradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickNumberListener" />
@@ -245,7 +245,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#FFFF00"
+                                android:background="@drawable/yelloweradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickNumberListener" />
@@ -258,7 +258,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#009900"
+                                android:background="@drawable/greenradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickNumberListener" />
@@ -271,7 +271,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#00ffff"
+                                android:background="@drawable/cyanradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickNumberListener" />
@@ -284,7 +284,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#0000CC"
+                                android:background="@drawable/blueradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickNumberListener" />
@@ -297,7 +297,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#990099"
+                                android:background="@drawable/magentaradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickNumberListener" />
@@ -310,7 +310,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="#FF00FF"
+                                android:background="@drawable/whiteradio"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:onClick="onClickNumberListener" />
@@ -320,13 +320,14 @@
 
                     <TableRow
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginBottom="25dp" >
+                        android:layout_height="80dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="25dp"
+                        android:padding="0dp">
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Sides"
                             android:id="@+id/Sides" />
@@ -345,108 +346,60 @@
                             android:layout_marginRight="15dp" >
 
                             <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="55dp"
+                                android:layout_height="70dp"
                                 android:id="@+id/sides2"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:padding="0dp"
-                                android:background="#ffffff"
-                                android:onClick="onClickSidesListener"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp" />
+                                android:button="@null"
+                                android:background="@drawable/diered2"
+                                android:layout_marginLeft="0dp" />
 
                             <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/sides3"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:padding="0dp"
-                                android:background="#ffffff"
-                                android:onClick="onClickSidesListener"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp" />
-
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="55dp"
+                                android:layout_height="70dp"
                                 android:id="@+id/sides4"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:padding="0dp"
-                                android:background="#ffffff"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:onClick="onClickSidesListener" />
+                                android:button="@null"
+                                android:background="@drawable/diered2"
+                                android:layout_marginLeft="5dp" />
 
                             <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="55dp"
+                                android:layout_height="70dp"
                                 android:id="@+id/sides6"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:padding="0dp"
-                                android:background="#ffffff"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:onClick="onClickSidesListener" />
+                                android:button="@null"
+                                android:background="@drawable/diered2"
+                                android:layout_marginLeft="5dp" />
 
                             <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="55dp"
+                                android:layout_height="70dp"
                                 android:id="@+id/sides8"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:padding="0dp"
-                                android:background="#ffffff"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:onClick="onClickSidesListener" />
+                                android:button="@null"
+                                android:background="@drawable/diered2"
+                                android:layout_marginLeft="5dp" />
 
                             <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="55dp"
+                                android:layout_height="70dp"
                                 android:id="@+id/sides10"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:padding="0dp"
-                                android:background="#ffffff"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:onClick="onClickSidesListener" />
+                                android:button="@null"
+                                android:background="@drawable/diered2"
+                                android:layout_marginLeft="5dp" />
 
                             <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="55dp"
+                                android:layout_height="70dp"
                                 android:id="@+id/sides12"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:padding="0dp"
-                                android:background="#ffffff"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:onClick="onClickSidesListener" />
+                                android:button="@null"
+                                android:background="@drawable/diered2"
+                                android:layout_marginLeft="5dp" />
 
                             <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="55dp"
+                                android:layout_height="70dp"
                                 android:id="@+id/sides20"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:padding="0dp"
-                                android:background="#ffffff"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:onClick="onClickSidesListener" />
+                                android:button="@null"
+                                android:background="@drawable/diered2"
+                                android:layout_marginLeft="5dp" />
                         </RadioGroup>
 
                     </TableRow>

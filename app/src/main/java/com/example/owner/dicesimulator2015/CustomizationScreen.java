@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Switch;
 
@@ -111,7 +112,7 @@ public class CustomizationScreen extends ActionBarActivity {
             case R.id.orangePip:
                 if (checked)
                     System.out.println("orangepip");
-                    numColour = Color.DKGRAY;
+                    numColour = Color.BLACK;
                     break;
             case R.id.yellowPip:
                 if (checked)
@@ -141,21 +142,15 @@ public class CustomizationScreen extends ActionBarActivity {
     }
 
     public void onClickSidesListener(View view) {
-        System.out.println("what");
+
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
-        System.out.println("checked");
 
         // Check which radio button was clicked
         switch(view.getId()) {
             case R.id.sides2:
                 if (checked)
-                    System.out.println("sides");
                     numSides = 2;
-                    break;
-            case R.id.sides3:
-                if (checked)
-                    numSides = 3;
                     break;
             case R.id.sides4:
                 if (checked)
@@ -185,9 +180,7 @@ public class CustomizationScreen extends ActionBarActivity {
     }
 
     public void onClickAddDiceListener(View v){
-        System.out.println("add");
 
-        System.out.println("numSides");
         Die die1 = new Die(numSides,sideColour,numColour,pips);
         dieSaved.add(die1);
 
