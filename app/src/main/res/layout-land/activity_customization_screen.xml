@@ -348,10 +348,10 @@
 
                             <RadioButton
                                 android:layout_width="55dp"
-                                android:layout_height="70dp"
+                                android:layout_height="55dp"
                                 android:id="@+id/sides2"
                                 android:button="@null"
-                                android:background="@drawable/die2sample"
+                                android:background="@drawable/d2button"
                                 android:layout_marginLeft="0dp"
                                 android:clickable="true"
                                 android:checked="false"
@@ -360,10 +360,10 @@
 
                             <RadioButton
                                 android:layout_width="55dp"
-                                android:layout_height="70dp"
+                                android:layout_height="55dp"
                                 android:id="@+id/sides4"
                                 android:button="@null"
-                                android:background="@drawable/die4sample"
+                                android:background="@drawable/d4button"
                                 android:layout_marginLeft="5dp"
                                 android:clickable="true"
                                 android:checked="false"
@@ -372,10 +372,10 @@
 
                             <RadioButton
                                 android:layout_width="55dp"
-                                android:layout_height="70dp"
+                                android:layout_height="55dp"
                                 android:id="@+id/sides6"
                                 android:button="@null"
-                                android:background="@drawable/die6sample"
+                                android:background="@drawable/d6button"
                                 android:layout_marginLeft="5dp"
                                 android:clickable="true"
                                 android:checked="false"
@@ -384,10 +384,10 @@
 
                             <RadioButton
                                 android:layout_width="55dp"
-                                android:layout_height="70dp"
+                                android:layout_height="55dp"
                                 android:id="@+id/sides8"
                                 android:button="@null"
-                                android:background="@drawable/die8sample"
+                                android:background="@drawable/d8button"
                                 android:layout_marginLeft="5dp"
                                 android:clickable="true"
                                 android:checked="false"
@@ -396,10 +396,10 @@
 
                             <RadioButton
                                 android:layout_width="55dp"
-                                android:layout_height="70dp"
+                                android:layout_height="55dp"
                                 android:id="@+id/sides10"
                                 android:button="@null"
-                                android:background="@drawable/die10sample"
+                                android:background="@drawable/d10button"
                                 android:layout_marginLeft="5dp"
                                 android:clickable="true"
                                 android:checked="false"
@@ -408,10 +408,10 @@
 
                             <RadioButton
                                 android:layout_width="55dp"
-                                android:layout_height="70dp"
+                                android:layout_height="55dp"
                                 android:id="@+id/sides12"
                                 android:button="@null"
-                                android:background="@drawable/die12sample"
+                                android:background="@drawable/d12button"
                                 android:layout_marginLeft="5dp"
                                 android:clickable="true"
                                 android:checked="false"
@@ -420,10 +420,10 @@
 
                             <RadioButton
                                 android:layout_width="55dp"
-                                android:layout_height="70dp"
+                                android:layout_height="55dp"
                                 android:id="@+id/sides20"
                                 android:button="@null"
-                                android:background="@drawable/die20sample"
+                                android:background="@drawable/d20button"
                                 android:layout_marginLeft="5dp"
                                 android:clickable="true"
                                 android:checked="false"
