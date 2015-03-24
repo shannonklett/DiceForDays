@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.os.Bundle;
@@ -38,14 +39,18 @@ public class MainActivity extends ActionBarActivity {
     private GestureDetector fragmentDiceSliderDetector;
     private GestureDetector menuDiceDetector;
     AbsoluteLayout dieZone;
-    ArrayList<Die> diceOnScreen = new ArrayList<Die>();
-    ArrayList<Die> diceList = new ArrayList<Die>();
     ImageView vsSlider;
     ImageView diceSlider;
     ImageView fragmentDiceSlider;
     Boolean menuIsOpen = false;
     GridLayout fragmentGrid;
     Die currentTouchedMenuDieIndex;
+
+
+    ArrayList<Die> diceOnScreen = new ArrayList<Die>();
+    ArrayList<Die> diceList = new ArrayList<Die>();
+    ArrayList<DieBunch> dieSaved = new ArrayList<DieBunch>();
+
 
 
 
@@ -63,11 +68,31 @@ public class MainActivity extends ActionBarActivity {
         dieZone = (AbsoluteLayout) this.findViewById(R.id.dieZone);
         vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
         diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
-        for (int i = 0; i<8; i++) {
-            Die newDie = new Die(6, colours[i], colours[7-i], false);
-            newDie.createImageView(this);
-            diceList.add(newDie);
+
+        System.out.println("outside if");;
+        System.out.println("er extras");
+        if (this.getIntent().getExtras() != null){
+            //update list of die in the menu
+            System.out.println("from cust");
+            dieSaved = getIntent().getParcelableArrayListExtra("dieBunch");
+            for (DieBunch point : dieSaved) {
+                diceList.add(point.getDieBunch());
+            }
         }
+        else
+            {
+
+                for (int i = 0; i<8; i++) {
+                    Die newDie = new Die(6, colours[i], colours[7 - i], false);
+                    newDie.createImageView(this);
+                    diceList.add(newDie);
+                }
+                System.out.println("else");
+                for(Die point: diceList){
+                    dieSaved.add(new DieBunch(point));
+                }
+        }
+
         /*Die newDie = new Die(6, Color.BLUE, Color.BLACK, false);
         Die newDie2 = new Die(6, Color.GREEN, Color.WHITE, false);
         Die newDie3 = new Die(6, Color.RED, Color.BLUE, false);
@@ -114,13 +139,15 @@ public class MainActivity extends ActionBarActivity {
     //Adds the created dice from diceList to the fragment menu
     public void addDiceToFragment() {
         fragmentGrid = (GridLayout) this.findViewById(R.id.gridLayout);
-        ((ViewGroup)fragmentGrid).removeViews(1, fragmentGrid.getChildCount() - 1);
+        ((ViewGroup) fragmentGrid).removeViews(1, fragmentGrid.getChildCount() - 1);
         int currentCol = 0;
         int currentRow = 0;
         GridLayout.Spec row;
         GridLayout.Spec col;
         GridLayout.LayoutParams gridLayoutParams;
         for (Die die : diceList) {
+
+
             if (currentCol > 4) {
                 currentRow++;
                 currentCol = 0;
@@ -135,12 +162,13 @@ public class MainActivity extends ActionBarActivity {
             newDie.createImageView(this);
             fragmentGrid.addView(newDie.getImageView(), gridLayoutParams);
             newDie.getImageView().setOnTouchListener(new OnMenuDiceTouchListener(die));
-            newDie.getImageView().setOnClickListener( new OnClickMenuDiceListener(newDie));
+            newDie.getImageView().setOnClickListener(new OnClickMenuDiceListener(newDie));
             currentCol++;
             //fragmentGrid.addView(fragmentGrid.findViewById(R.id.addDice));
-        }
-    }
 
+        }
+
+    }
 
 
 
@@ -149,7 +177,9 @@ public class MainActivity extends ActionBarActivity {
         Intent j = new Intent(
                 MainActivity.this,
                 CustomizationScreen.class);
+        j.putExtra("dieBunch", dieSaved);
         startActivity(j);
+
 
     }
 

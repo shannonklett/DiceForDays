@@ -8,13 +8,15 @@ import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.style.AbsoluteSizeSpan;
 import android.widget.ImageView;
 import android.graphics.drawable.Drawable;
 import android.widget.AbsoluteLayout;
 
 
-public class Die {
+public class Die implements Parcelable {
 
     private int numSides;
     private int sideColour;
@@ -138,5 +140,65 @@ public class Die {
         params.height = 150;
         imageView.setLayoutParams(params);
     }
+
+    public int getNumSides(){
+        return numSides;
+    }
+
+    public int getNumColour(){
+        return numColour;
+    }
+
+    public int getSideColour(){
+        return sideColour;
+    }
+
+    public Boolean getPips(){
+        return pips;
+    }
+
+    //parcel part
+    public Die(Parcel in){
+        String[] data = new String[4];
+
+        in.readStringArray(data);
+        this.numSides = Integer.parseInt(data[0]);
+        this.numColour = Integer.parseInt(data[1]);
+        this.sideColour = Integer.parseInt(data[2]);
+
+        int valuePips;
+        if (!this.pips)
+            valuePips = 1;
+        else
+            valuePips = 0;
+
+        valuePips = Integer.parseInt((data[3]));
+    }
+    @Override
+    public int describeContents() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        // TODO Auto-generated method stub
+        dest.writeStringArray(new String[]{String.valueOf(this.numSides),String.valueOf(this.numColour), String.valueOf(this.numSides), String.valueOf(this.pips)});
+    }
+
+    public static final Parcelable.Creator<Die> CREATOR= new Parcelable.Creator<Die>() {
+
+        @Override
+        public Die createFromParcel(Parcel source) {
+            // TODO Auto-generated method stub
+            return new Die(source);  //using parcelable constructor
+        }
+
+        @Override
+        public Die[] newArray(int size) {
+            // TODO Auto-generated method stub
+            return new Die[size];
+        }
+    };
 
 }

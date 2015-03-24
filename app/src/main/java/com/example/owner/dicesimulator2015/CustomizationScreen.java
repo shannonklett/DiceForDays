@@ -10,19 +10,32 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Switch;
 
+import java.util.ArrayList;
+
 
 public class CustomizationScreen extends ActionBarActivity {
 
-    int numSides;
-    int sideColour;
-    int numColour;
-    Boolean pips;
+    //default
+    int numSides = 2 ;
+    int sideColour =Color.RED;
+    int numColour= Color.GRAY;
+    Boolean pips = false;
+
+    ArrayList<DieBunch> diceList;
+    private ArrayList<Die> dieSaved = new ArrayList<Die>();
+    private ArrayList<DieBunch> dieSavedUpdated = new ArrayList<DieBunch>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customization_screen);
         System.out.println("hello");
+
+        //saved list of dice from menu
+        diceList = getIntent().getParcelableArrayListExtra("dieBunch");
+        for(DieBunch point: diceList){
+            dieSaved.add(point.getDieBunch());
+        }
     }
 
     public void onSwitchClicked(View view) {
@@ -128,13 +141,16 @@ public class CustomizationScreen extends ActionBarActivity {
     }
 
     public void onClickSidesListener(View view) {
+        System.out.println("what");
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
+        System.out.println("checked");
 
         // Check which radio button was clicked
         switch(view.getId()) {
             case R.id.sides2:
                 if (checked)
+                    System.out.println("sides");
                     numSides = 2;
                     break;
             case R.id.sides3:
@@ -170,9 +186,22 @@ public class CustomizationScreen extends ActionBarActivity {
 
     public void onClickAddDiceListener(View v){
         System.out.println("add");
+
+        System.out.println("numSides");
+        Die die1 = new Die(numSides,sideColour,numColour,pips);
+        dieSaved.add(die1);
+
+        //update list of Books
+        for(Die point: dieSaved){
+            dieSavedUpdated.add(new DieBunch(point));
+        }
+
+
         Intent j = new Intent(
                 CustomizationScreen.this,
                 MainActivity.class);
+        j.putExtra("dieBunch", dieSavedUpdated);
+        j.putExtra("flag", "cust");
         startActivity(j);
         finish();
 
