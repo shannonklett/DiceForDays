@@ -350,7 +350,11 @@
                                 android:id="@+id/sides2"
                                 android:button="@null"
                                 android:background="@drawable/d2full"
-                                android:layout_marginLeft="0dp" />
+                                android:layout_marginLeft="0dp"
+                                android:clickable="true"
+                                android:checked="false"
+                                android:nestedScrollingEnabled="false"
+                                android:onClick="onClickSidesListener" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -358,7 +362,11 @@
                                 android:id="@+id/sides4"
                                 android:button="@null"
                                 android:background="@drawable/d4full"
-                                android:layout_marginLeft="5dp" />
+                                android:layout_marginLeft="5dp"
+                                android:clickable="true"
+                                android:checked="false"
+                                android:nestedScrollingEnabled="false"
+                                android:onClick="onClickSidesListener" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -366,23 +374,35 @@
                                 android:id="@+id/sides6"
                                 android:button="@null"
                                 android:background="@drawable/d6full"
-                                android:layout_marginLeft="5dp" />
+                                android:layout_marginLeft="5dp"
+                                android:clickable="true"
+                                android:checked="false"
+                                android:nestedScrollingEnabled="false"
+                                android:onClick="onClickSidesListener" />
 
                             <RadioButton
                                 android:layout_width="55dp"
                                 android:layout_height="70dp"
                                 android:id="@+id/sides8"
                                 android:button="@null"
-                                android:background="@drawable/d8full"
-                                android:layout_marginLeft="5dp" />
+                                android:background="@drawable/die8sample"
+                                android:layout_marginLeft="5dp"
+                                android:clickable="true"
+                                android:checked="false"
+                                android:nestedScrollingEnabled="false"
+                                android:onClick="onClickSidesListener" />
 
                             <RadioButton
                                 android:layout_width="55dp"
                                 android:layout_height="70dp"
                                 android:id="@+id/sides10"
-                                android:button="@null"
+
                                 android:background="@drawable/diered2"
-                                android:layout_marginLeft="5dp" />
+                                android:layout_marginLeft="5dp"
+                                android:clickable="true"
+                                android:checked="false"
+                                android:nestedScrollingEnabled="false"
+                                android:onClick="onClickSidesListener" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -390,7 +410,11 @@
                                 android:id="@+id/sides12"
                                 android:button="@null"
                                 android:background="@drawable/diered2"
-                                android:layout_marginLeft="5dp" />
+                                android:layout_marginLeft="5dp"
+                                android:clickable="true"
+                                android:checked="false"
+                                android:nestedScrollingEnabled="false"
+                                android:onClick="onClickSidesListener" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -398,7 +422,11 @@
                                 android:id="@+id/sides20"
                                 android:button="@null"
                                 android:background="@drawable/diered2"
-                                android:layout_marginLeft="5dp" />
+                                android:layout_marginLeft="5dp"
+                                android:clickable="true"
+                                android:checked="false"
+                                android:nestedScrollingEnabled="false"
+                                android:onClick="onClickSidesListener" />
                         </RadioGroup>
 
                     </TableRow>

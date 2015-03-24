@@ -154,6 +154,7 @@ public class CustomizationScreen extends ActionBarActivity {
                     break;
             case R.id.sides4:
                 if (checked)
+                    System.out.println("4");
                     numSides = 4;
                     break;
             case R.id.sides6:
