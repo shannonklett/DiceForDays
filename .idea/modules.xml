@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectModuleManager">
-<<<<<<< HEAD
-    <modules />
-=======
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DiceForDays.iml" filepath="$PROJECT_DIR$/DiceForDays.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DiceSimulator2015.iml" filepath="$PROJECT_DIR$/DiceSimulator2015.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
->>>>>>> ed21ff0b279ea5b3ea7c9ae6563378d00ec286f8
   </component>
 </project>
 
