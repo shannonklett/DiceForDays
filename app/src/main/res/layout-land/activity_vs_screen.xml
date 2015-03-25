@@ -25,15 +25,6 @@
             android:background="#FF0000FF"
             android:layout_marginTop="15dp" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lockButton"
-            android:layout_x="457dp"
-            android:layout_y="431dp"
-            android:background="@drawable/lockbutton"
-            android:onClick="toggleLockMode" />
-
     </AbsoluteLayout>
 
     <AbsoluteLayout
@@ -81,6 +72,24 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/fragmentContainer"
         android:layout_x="0dp"
-        android:layout_y="0dp" />
+        android:layout_y="0dp" >
+
+    </FrameLayout>
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/lockButton"
+        android:onClick="toggleLockMode"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/lockbutton"
+        android:layout_alignParentEnd="true"
+        android:baselineAlignBottom="false"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="right|bottom"
+        android:layout_marginTop="425dp" />
 
 </RelativeLayout>

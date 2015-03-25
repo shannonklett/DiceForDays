@@ -11,6 +11,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name" >
             android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +21,8 @@
         </activity>
         <activity
             android:name=".VsScreen"
-            android:label="Versus" >
+            android:label="Versus"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             android:screenOrientation="landscape"
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
