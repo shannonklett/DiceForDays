@@ -368,7 +368,8 @@
                                 android:clickable="true"
                                 android:checked="false"
                                 android:nestedScrollingEnabled="false"
-                                android:onClick="onClickSidesListener" />
+                                android:onClick="onClickSidesListener"
+                                android:layout_marginTop="5dp" />
 
                             <RadioButton
                                 android:layout_width="55dp"

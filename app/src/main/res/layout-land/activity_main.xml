@@ -82,14 +82,12 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="fitXY"
-        android:id="@+id/imageView"
+        android:id="@+id/garbage"
         android:minHeight="50dp"
         android:minWidth="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="right|bottom"
-        android:layout_marginTop="425dp"
+        android:layout_marginTop="477dp"
         android:layout_x="803dp"
-        android:layout_y="50dp"
+        android:layout_y="500dp"
         android:src="@drawable/deleteicon" />
 
 
