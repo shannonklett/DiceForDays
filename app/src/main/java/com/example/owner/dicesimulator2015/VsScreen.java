@@ -271,7 +271,7 @@ public class VsScreen extends ActionBarActivity {
                 } else {
                     selectingSide = true;
                     Context context = getApplicationContext();
-                    CharSequence text = "Tap which side you want to add the die to";
+                    CharSequence text = "Tap a side to add";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
