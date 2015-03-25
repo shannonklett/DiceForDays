@@ -240,6 +240,13 @@ public class MainActivity extends ActionBarActivity {
         diceOnScreen.add(dieToAdd);
         dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener(dieToAdd));
         dieZone.addView(dieToAdd.getImageView(), 150, 150);
+
+        Context context = getApplicationContext();
+        CharSequence text = "Tap screen to roll";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
     }
 
     class OnClickMenuDiceListener implements View.OnClickListener {
