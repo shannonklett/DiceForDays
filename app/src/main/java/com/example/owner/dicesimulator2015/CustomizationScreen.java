@@ -235,9 +235,17 @@ public class CustomizationScreen extends ActionBarActivity {
         for(Die point: dieSaved){
             dieSavedUpdated.add(new DieBunch(point));
         }
-        Intent j = new Intent(
-                CustomizationScreen.this,
-                MainActivity.class);
+        String caller = getIntent().getStringExtra("caller");
+        Intent j;
+        if (caller.equals("MainActivity")) {
+            j = new Intent(
+                    CustomizationScreen.this,
+                    MainActivity.class);
+        } else {
+            j = new Intent(
+                    CustomizationScreen.this,
+                    VsScreen.class);
+        }
         j.putExtra("dieBunch", dieSavedUpdated);
         j.putExtra("flag", "cust");
         startActivity(j);
