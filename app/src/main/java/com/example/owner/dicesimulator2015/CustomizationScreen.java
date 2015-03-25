@@ -223,7 +223,6 @@ public class CustomizationScreen extends ActionBarActivity {
                     CustomizationScreen.this,
                     VsScreen.class);
         }
-
         j.putExtra("dieBunch", dieSavedUpdated);
         j.putExtra("flag", "cust");
         startActivity(j);
@@ -232,9 +231,15 @@ public class CustomizationScreen extends ActionBarActivity {
     }
 
     public void onClickCancelListener(View v){
+
+        for(Die point: dieSaved){
+            dieSavedUpdated.add(new DieBunch(point));
+        }
         Intent j = new Intent(
                 CustomizationScreen.this,
                 MainActivity.class);
+        j.putExtra("dieBunch", dieSavedUpdated);
+        j.putExtra("flag", "cust");
         startActivity(j);
         finish();
     }
