@@ -60,5 +60,23 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/fragmentContainer"></FrameLayout>
 
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/lockButton"
+        android:onClick="toggleLockMode"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/lockbutton"
+        android:layout_alignParentEnd="true"
+        android:baselineAlignBottom="false"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="right|bottom"
+        android:layout_marginTop="425dp"
+        android:layout_x="803dp"
+        android:layout_y="388dp" />
+
 
 </RelativeLayout>

@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.graphics.ColorMatrixColorFilter;
 import android.widget.AbsoluteLayout;
@@ -44,8 +45,10 @@ public class MainActivity extends ActionBarActivity {
     ImageView diceSlider;
     ImageView fragmentDiceSlider;
     Boolean menuIsOpen = false;
+    Boolean selectingLock = false;
     GridLayout fragmentGrid;
     Die currentTouchedMenuDieIndex;
+    ImageButton lockButton;
 
 
     ArrayList<Die> diceOnScreen = new ArrayList<Die>();
@@ -70,6 +73,7 @@ public class MainActivity extends ActionBarActivity {
         dieZone = (AbsoluteLayout) this.findViewById(R.id.dieZone);
         vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
         diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
+        lockButton = (ImageButton)this.findViewById(R.id.lockButton);
 
         //returning from vs screen or customization screen
         if (this.getIntent().getStringExtra("flag") != null){
@@ -109,6 +113,8 @@ public class MainActivity extends ActionBarActivity {
         dieZone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectingLock = false;
+                lockButton.setImageDrawable(v.getContext().getDrawable(R.drawable.lockbutton));
                 for (Die die : diceOnScreen) {
                     die.roll();
                 }
@@ -215,7 +221,7 @@ public class MainActivity extends ActionBarActivity {
         Die dieToAdd = die.clone();
         dieToAdd.createImageView(this);
         diceOnScreen.add(dieToAdd);
-        dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener());
+        dieToAdd.getImageView().setOnTouchListener(new OnDiceTouchListener(dieToAdd));
         dieZone.addView(dieToAdd.getImageView(), 150, 150);
     }
 
@@ -270,8 +276,10 @@ public class MainActivity extends ActionBarActivity {
     //Allows user to drag dice around the screen individually.
     class OnDiceTouchListener implements OnTouchListener {
 
-        public OnDiceTouchListener() {
+        Die die;
 
+        public OnDiceTouchListener(Die die) {
+            this.die = die;
         }
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -282,22 +290,27 @@ public class MainActivity extends ActionBarActivity {
             LayoutParams layoutParams = (LayoutParams) v.getLayoutParams();
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    if (selectingLock) {
+                        die.toggleLock();
+                    }
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    int x_cord = (int) event.getRawX();
-                    int y_cord = (int) event.getRawY();
-                    Log.d("Tag", Integer.toString(x_cord));
-                    if (x_cord > width) {
-                        x_cord = width;
-                    }
-                    if (y_cord > height) {
-                        y_cord = height;
-                    }
+                    if (!selectingLock) {
+                        int x_cord = (int) event.getRawX();
+                        int y_cord = (int) event.getRawY();
+                        Log.d("Tag", Integer.toString(x_cord));
+                        if (x_cord > width) {
+                            x_cord = width;
+                        }
+                        if (y_cord > height) {
+                            y_cord = height;
+                        }
 
-                    layoutParams.x = x_cord - 75;
-                    layoutParams.y = y_cord - 75;
+                        layoutParams.x = x_cord - 75;
+                        layoutParams.y = y_cord - 75;
 
-                    v.setLayoutParams(layoutParams);
+                        v.setLayoutParams(layoutParams);
+                    }
                     break;
                 default:
                     break;
@@ -407,5 +420,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void toggleLockMode(View v) {
+        selectingLock = !selectingLock;
+        if (selectingLock)
+            lockButton.setImageDrawable(this.getDrawable(R.drawable.lockbuttonselected));
+        else
+            lockButton.setImageDrawable(this.getDrawable(R.drawable.lockbutton));
     }
 }
