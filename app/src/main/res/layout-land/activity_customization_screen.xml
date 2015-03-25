@@ -42,7 +42,8 @@
                             android:text="Pips"
                             android:id="@+id/Pips"
                             android:textStyle="bold"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:visibility="gone"/>
 
                         <Switch
                             android:layout_width="180dp"
@@ -50,7 +51,8 @@
                             android:id="@+id/pipSwitch"
                             android:layout_gravity="left"
                             android:layout_marginLeft="25dp"
-                            android:onClick="onSwitchClicked" />
+                            android:onClick="onSwitchClicked"
+                            android:visibility="gone"/>
 
                     </TableRow>
 

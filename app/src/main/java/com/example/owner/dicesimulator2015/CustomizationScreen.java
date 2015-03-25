@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -192,12 +193,22 @@ public class CustomizationScreen extends ActionBarActivity {
                     numSides = 20;
                     break;
         }
+
+        View pip = findViewById(R.id.Pips);
+        View pipsSwitch = findViewById(R.id.pipSwitch);
+
         if (numSides == 6) {
+            pip.setVisibility(View.VISIBLE);
+            pipsSwitch.setVisibility(View.VISIBLE);
+
             pipSwitch.setEnabled(true);
         } else {
             pipSwitch.setChecked(false);
             pips = false;
             pipSwitch.setEnabled(false);
+
+            pip.setVisibility(View.GONE);
+            pipsSwitch.setVisibility(View.GONE);
         }
         updatePreview();
     }
