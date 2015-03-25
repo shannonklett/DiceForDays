@@ -424,7 +424,6 @@ public class VsScreen extends ActionBarActivity {
                     if (!selectingLock) {
                         int x_cord = (int) event.getRawX();
                         int y_cord = (int) event.getRawY();
-                        Log.d("Tag", Integer.toString(x_cord));
                         if (parent.getLeft() > 400) {
                             x_cord -= width;
                             if (x_cord < 95) {
