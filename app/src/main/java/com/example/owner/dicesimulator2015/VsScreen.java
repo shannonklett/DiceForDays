@@ -53,11 +53,14 @@ public class VsScreen extends ActionBarActivity {
     private GestureDetector soloSliderDetector;
     private GestureDetector diceSliderDetector;
     private GestureDetector fragmentDiceSliderDetector;
-    private GestureDetector menuDiceDetector;
     Boolean selectingSide = false;
     Boolean selectingLock = false;
+    Boolean selectingRemove = false;
     Die selectedDie;
     ImageButton lockButton;
+    ImageButton removeButton;
+    ImageView garbage;
+    Boolean isOverGarbage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +71,12 @@ public class VsScreen extends ActionBarActivity {
         soloSliderDetector = new GestureDetector(new soloSliderGestureListener());
         diceSliderDetector = new GestureDetector(new diceSliderGestureListener());
         fragmentDiceSliderDetector = new GestureDetector(new fragmentDiceSliderGestureListener());
-        menuDiceDetector = new GestureDetector(new menuDiceGestureListener(this));
         leftSide = (AbsoluteLayout) this.findViewById(R.id.leftSide);
         rightSide = (AbsoluteLayout) this.findViewById(R.id.rightSide);
         soloSlider = (ImageView)this.findViewById(R.id.soloSlider);
         diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
         lockButton = (ImageButton)this.findViewById(R.id.lockButton);
+        garbage = (ImageView)this.findViewById(R.id.garbage);
 
         if (this.getIntent().getStringExtra("flag") != null){
             //update list of die in the menu
@@ -99,6 +102,9 @@ public class VsScreen extends ActionBarActivity {
                     addDieToScreen(selectedDie, true);
                     selectingSide = false;
                 } else {
+                    if (menuIsOpen) {
+                        closeFragment();
+                    }
                     if (selectingLock) {
                         selectingLock = false;
                         lockButton.setImageDrawable(v.getContext().getDrawable(R.drawable.lockbutton));
@@ -117,6 +123,9 @@ public class VsScreen extends ActionBarActivity {
                     addDieToScreen(selectedDie, false);
                     selectingSide = false;
                 } else {
+                    if (menuIsOpen) {
+                        closeFragment();
+                    }
                     if (selectingLock) {
                         selectingLock = false;
                         lockButton.setImageDrawable(v.getContext().getDrawable(R.drawable.lockbutton));
@@ -148,7 +157,7 @@ public class VsScreen extends ActionBarActivity {
 
     public void addDiceToFragment() {
         fragmentGrid = (GridLayout) this.findViewById(R.id.gridLayout);
-        ((ViewGroup) fragmentGrid).removeViews(1, fragmentGrid.getChildCount() - 1);
+        ((ViewGroup) fragmentGrid).removeViews(2, fragmentGrid.getChildCount() - 2);
         int currentCol = 0;
         int currentRow = 0;
         GridLayout.Spec row;
@@ -157,7 +166,7 @@ public class VsScreen extends ActionBarActivity {
         for (Die die : diceList) {
 
 
-            if (currentCol > 4) {
+            if (currentCol > 3) {
                 currentRow++;
                 currentCol = 0;
             }
@@ -167,7 +176,7 @@ public class VsScreen extends ActionBarActivity {
             gridLayoutParams.height = 140;
             gridLayoutParams.width = 140;
             gridLayoutParams.setMargins(0, 0, 10, 10);
-            Die newDie = die.clone();
+            Die newDie = die;
             newDie.createImageView(this);
             fragmentGrid.addView(newDie.getImageView(), gridLayoutParams);
             newDie.getImageView().setOnTouchListener(new OnMenuDiceTouchListener(die));
@@ -180,7 +189,7 @@ public class VsScreen extends ActionBarActivity {
     }
 
     public void addDice (View v) {
-        if (diceList.size() >= 9) {
+        if (diceList.size() >= 8) {
             Context context = getApplicationContext();
             CharSequence text = "Your dice drawer is full! Delete dice before creating another!";
             int duration = Toast.LENGTH_SHORT;
@@ -201,6 +210,7 @@ public class VsScreen extends ActionBarActivity {
     }
 
     public void setFragmentTouchListeners() {
+        removeButton = (ImageButton)this.findViewById(R.id.removeButton);
         fragmentDiceSlider = (ImageView)this.findViewById(R.id.fragmentDiceSlider);
         fragmentDiceSlider.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -209,6 +219,16 @@ public class VsScreen extends ActionBarActivity {
                 return true;
             }
         });
+    }
+
+    public void toggleRemove(View v) {
+        if (selectingRemove) {
+            selectingRemove = false;
+            removeButton.setImageDrawable(getApplication().getDrawable(R.drawable.removedie));
+        } else {
+            selectingRemove = true;
+            removeButton.setImageDrawable(getApplication().getDrawable(R.drawable.removedieselected));
+        }
     }
 
     public void saveDice() {
@@ -244,14 +264,21 @@ public class VsScreen extends ActionBarActivity {
             if (selectingSide) {
 
             } else {
-                selectingSide = true;
-                Context context = getApplicationContext();
-                CharSequence text = "Tap which side you want to add the to";
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                if (selectingRemove) {
+                    YesNoClickListener listener = new YesNoClickListener();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(VsScreen.this);
+                    builder.setMessage("Delete this die?").setPositiveButton("Yes", listener).setNegativeButton("No", listener).show();
+                } else {
+                    selectingSide = true;
+                    Context context = getApplicationContext();
+                    CharSequence text = "Tap which side you want to add the die to";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
 
-                selectedDie = die;
+                    selectedDie = die;
+                }
+
             }
         }
     }
@@ -270,6 +297,8 @@ public class VsScreen extends ActionBarActivity {
                     //No button clicked
                     break;
             }
+            selectingRemove = false;
+            removeButton.setImageDrawable(getApplication().getDrawable(R.drawable.removedie));
         }
     };
 
@@ -286,7 +315,6 @@ public class VsScreen extends ActionBarActivity {
         public boolean onTouch(View v, MotionEvent event) {
             {
                 currentTouchedMenuDieIndex = indexedDie;
-                menuDiceDetector.onTouchEvent(event);
                 return false;
             }
         }
@@ -313,23 +341,6 @@ public class VsScreen extends ActionBarActivity {
         }
     }
 
-    class menuDiceGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        Context myContext;
-        public menuDiceGestureListener(Context context) {
-            myContext = context;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent event) {
-
-            YesNoClickListener listener = new YesNoClickListener();
-            AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
-            builder.setMessage("Delete this die?").setPositiveButton("Yes", listener).setNegativeButton("No", listener).show();
-        }
-
-    }
-
     class diceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -345,6 +356,7 @@ public class VsScreen extends ActionBarActivity {
                 fragmentTransaction.commit();
                 menuIsOpen = true;
 
+
             }
             return true;
         }
@@ -355,16 +367,7 @@ public class VsScreen extends ActionBarActivity {
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
             if (event2.getY() < event1.getY()) {
-
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
-
-                Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
-                fragmentTransaction.remove(f);
-                fragmentTransaction.commit();
-                menuIsOpen = false;
-                diceSlider.setVisibility(View.VISIBLE);
+                closeFragment();
 
             }
             return true;
@@ -380,7 +383,15 @@ public class VsScreen extends ActionBarActivity {
     }
 
     public void closeFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
 
+        Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
+        fragmentTransaction.remove(f);
+        fragmentTransaction.commit();
+        menuIsOpen = false;
+        diceSlider.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -420,18 +431,62 @@ public class VsScreen extends ActionBarActivity {
                         die.toggleLock();
                     }
                     break;
+                case MotionEvent.ACTION_UP:
+                    int x = (int)event.getRawX();
+                    int y = (int)event.getRawY();
+                    if (parent.getLeft() > 400) {
+                        x -= width;
+                        if (x< 150 && y> height - 150) {
+                            parent.removeView(v);
+                            rightDice.remove(die);
+                            isOverGarbage = false;
+                            garbage.setImageDrawable(getApplication().getDrawable(R.drawable.deleteicon));
+                        }
+                    } else {
+                        if (x > width - 150 && y > height - 150) {
+                            parent.removeView(v);
+                            leftDice.remove(die);
+                            isOverGarbage = false;
+                            garbage.setImageDrawable(getApplication().getDrawable(R.drawable.deleteicon));
+                        }
+                    }
+
+                    break;
                 case MotionEvent.ACTION_MOVE:
                     if (!selectingLock) {
                         int x_cord = (int) event.getRawX();
                         int y_cord = (int) event.getRawY();
                         if (parent.getLeft() > 400) {
+
                             x_cord -= width;
-                            if (x_cord < 95) {
-                                x_cord = 95;
+                            if (x_cord < 150 && y_cord > height - 150) {
+                                if (!isOverGarbage) {
+                                    isOverGarbage = true;
+                                    garbage.setImageDrawable(getApplication().getDrawable(R.drawable.deleteiconselected));
+                                }
+                            } else {
+                                if (isOverGarbage) {
+                                    isOverGarbage = false;
+                                    garbage.setImageDrawable(getApplication().getDrawable(R.drawable.deleteicon));
+                                }
                             }
-                        } else {
                             if (x_cord < 75) {
                                 x_cord = 75;
+                            }
+                        } else {
+                            if (x_cord > width - 150 && y_cord > height - 150) {
+                                if (!isOverGarbage) {
+                                    isOverGarbage = true;
+                                    garbage.setImageDrawable(getApplication().getDrawable(R.drawable.deleteiconselected));
+                                }
+                            } else {
+                                if (isOverGarbage) {
+                                    isOverGarbage = false;
+                                    garbage.setImageDrawable(getApplication().getDrawable(R.drawable.deleteicon));
+                                }
+                            }
+                            if (x_cord < 55) {
+                                x_cord = 55;
                             }
                         }
                         if (x_cord > width - 75) {
@@ -461,6 +516,9 @@ public class VsScreen extends ActionBarActivity {
     }
     public void toggleLockMode(View v) {
         if (!selectingSide) {
+            if (menuIsOpen) {
+                closeFragment();
+            }
             selectingLock = !selectingLock;
             if (selectingLock)
                 lockButton.setImageDrawable(this.getDrawable(R.drawable.lockbuttonselected));

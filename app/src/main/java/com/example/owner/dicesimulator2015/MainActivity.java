@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.graphics.ColorMatrixColorFilter;
 import android.widget.AbsoluteLayout;
 import android.widget.AbsoluteLayout.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,16 +40,19 @@ public class MainActivity extends ActionBarActivity {
     private GestureDetector vsSliderDetector;
     private GestureDetector diceSliderDetector;
     private GestureDetector fragmentDiceSliderDetector;
-    private GestureDetector menuDiceDetector;
     AbsoluteLayout dieZone;
     ImageView vsSlider;
     ImageView diceSlider;
     ImageView fragmentDiceSlider;
     Boolean menuIsOpen = false;
     Boolean selectingLock = false;
+    Boolean selectingRemove = false;
     GridLayout fragmentGrid;
     Die currentTouchedMenuDieIndex;
     ImageButton lockButton;
+    ImageButton removeButton;
+    ImageView garbage;
+    Boolean isOverGarbage = false;
 
 
     ArrayList<Die> diceOnScreen = new ArrayList<Die>();
@@ -67,13 +71,11 @@ public class MainActivity extends ActionBarActivity {
         vsSliderDetector = new GestureDetector(new vsSliderGestureListener());
         diceSliderDetector = new GestureDetector(new diceSliderGestureListener());
         fragmentDiceSliderDetector = new GestureDetector(new fragmentDiceSliderGestureListener());
-        menuDiceDetector = new GestureDetector(new menuDiceGestureListener(this));
-        int colours[] = {Color.BLACK, Color.WHITE, Color.YELLOW, Color.DKGRAY, Color.RED, Color.GRAY, Color.GREEN, Color.BLUE};
-        int sides[] = {2, 3, 4, 6, 8, 10, 12, 20};
         dieZone = (AbsoluteLayout) this.findViewById(R.id.dieZone);
         vsSlider = (ImageView)this.findViewById(R.id.vsSlider);
         diceSlider = (ImageView)this.findViewById(R.id.diceSlider);
         lockButton = (ImageButton)this.findViewById(R.id.lockButton);
+        garbage = (ImageView)this.findViewById(R.id.garbage);
 
         //returning from vs screen or customization screen
         if (this.getIntent().getStringExtra("flag") != null){
@@ -115,6 +117,10 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 selectingLock = false;
                 lockButton.setImageDrawable(v.getContext().getDrawable(R.drawable.lockbutton));
+                if (menuIsOpen) {
+                    closeFragment();
+                    fragmentGrid.removeViews(2, fragmentGrid.getChildCount() - 2);
+                }
                 for (Die die : diceOnScreen) {
                     die.roll();
                 }
@@ -141,7 +147,7 @@ public class MainActivity extends ActionBarActivity {
     //Adds the created dice from diceList to the fragment menu
     public void addDiceToFragment() {
         fragmentGrid = (GridLayout) this.findViewById(R.id.gridLayout);
-        ((ViewGroup) fragmentGrid).removeViews(1, fragmentGrid.getChildCount() - 1);
+        ((ViewGroup) fragmentGrid).removeViews(2, fragmentGrid.getChildCount() - 2);
         int currentCol = 0;
         int currentRow = 0;
         GridLayout.Spec row;
@@ -150,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
         for (Die die : diceList) {
 
 
-            if (currentCol > 4) {
+            if (currentCol > 3) {
                 currentRow++;
                 currentCol = 0;
             }
@@ -183,7 +189,7 @@ public class MainActivity extends ActionBarActivity {
 
     //add dice button listener inside fragment
     public void addDice (View v) {
-        if (diceList.size() >= 9) {
+        if (diceList.size() >= 8) {
             Context context = getApplicationContext();
             CharSequence text = "Your dice drawer is full! Delete dice before creating another!";
             int duration = Toast.LENGTH_SHORT;
@@ -207,6 +213,7 @@ public class MainActivity extends ActionBarActivity {
 
     //Sets up listener on the Dice tab on the fragment menu to close it when flicked up
     public void setFragmentTouchListeners() {
+        removeButton = (ImageButton)this.findViewById(R.id.removeButton);
         fragmentDiceSlider = (ImageView)this.findViewById(R.id.fragmentDiceSlider);
         fragmentDiceSlider.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -215,6 +222,16 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
+    }
+
+    public void toggleRemove(View v) {
+        if (selectingRemove) {
+            selectingRemove = false;
+            removeButton.setImageDrawable(getApplication().getDrawable(R.drawable.removedie));
+        } else {
+            selectingRemove = true;
+            removeButton.setImageDrawable(getApplication().getDrawable(R.drawable.removedieselected));
+        }
     }
     //Adds the given die to the screen (diceOnScreen arraylist as well)
     public void addDieToScreen(Die die) {
@@ -233,7 +250,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         public void onClick (View v) {
-            addDieToScreen(die);
+            if (selectingRemove) {
+                YesNoClickListener listener = new YesNoClickListener();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Delete this die?").setPositiveButton("Yes", listener).setNegativeButton("No", listener).show();
+            } else {
+                addDieToScreen(die);
+            }
         }
     }
 
@@ -251,6 +274,8 @@ public class MainActivity extends ActionBarActivity {
                     //No button clicked
                     break;
             }
+            selectingRemove = false;
+            removeButton.setImageDrawable(getApplication().getDrawable(R.drawable.removedie));
         }
     };
 
@@ -267,7 +292,6 @@ public class MainActivity extends ActionBarActivity {
         public boolean onTouch(View v, MotionEvent event) {
             {
                 currentTouchedMenuDieIndex = indexedDie;
-                menuDiceDetector.onTouchEvent(event);
                 return false;
             }
         }
@@ -298,9 +322,12 @@ public class MainActivity extends ActionBarActivity {
 
                     int x = (int) event.getRawX();
                     int y = (int) event.getRawY();
-                    if (x < 100 && y > height - 100) {
+                    if (x < 150 && y > height - 150) {
                         parent.removeView(v);
                         diceOnScreen.remove(die);
+                        garbage.setImageDrawable(getApplication().getDrawable(R.drawable.deleteicon));
+                        isOverGarbage = false;
+
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
@@ -312,6 +339,17 @@ public class MainActivity extends ActionBarActivity {
                         }
                         if (y_cord > height) {
                             y_cord = height;
+                        }
+                        if (x_cord < 150 && y_cord > height - 150) {
+                            if (!isOverGarbage) {
+                                isOverGarbage = true;
+                                garbage.setImageDrawable(getApplication().getDrawable(R.drawable.deleteiconselected));
+                            }
+                        } else {
+                            if (isOverGarbage) {
+                                isOverGarbage = false;
+                                garbage.setImageDrawable(getApplication().getDrawable(R.drawable.deleteicon));
+                            }
                         }
 
                         layoutParams.x = x_cord - layoutParams.width/2;
@@ -350,22 +388,6 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-    class menuDiceGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        Context myContext;
-        public menuDiceGestureListener(Context context) {
-            myContext = context;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent event) {
-
-            YesNoClickListener listener = new YesNoClickListener();
-            AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
-            builder.setMessage("Delete this die?").setPositiveButton("Yes", listener).setNegativeButton("No", listener).show();
-        }
-
-    }
     //Enables flick to open dice menu fragment
     class diceSliderGestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -393,19 +415,23 @@ public class MainActivity extends ActionBarActivity {
         public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
             if (event2.getY() < event1.getY()) {
 
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
-
-                Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
-                fragmentTransaction.remove(f);
-                fragmentTransaction.commit();
-                menuIsOpen = false;
-                diceSlider.setVisibility(View.VISIBLE);
+                closeFragment();
 
             }
             return true;
         }
+    }
+
+    public void closeFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_anim);
+
+        Fragment f = getFragmentManager().findFragmentByTag("diceMenu");
+        fragmentTransaction.remove(f);
+        fragmentTransaction.commit();
+        menuIsOpen = false;
+        diceSlider.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -432,6 +458,9 @@ public class MainActivity extends ActionBarActivity {
 
     public void toggleLockMode(View v) {
         selectingLock = !selectingLock;
+        if (menuIsOpen) {
+            closeFragment();
+        }
         if (selectingLock)
             lockButton.setImageDrawable(this.getDrawable(R.drawable.lockbuttonselected));
         else

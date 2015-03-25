@@ -474,7 +474,7 @@
                             style="?android:attr/buttonStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Add Dice"
+                            android:text="Add Die"
                             android:id="@+id/addDice"
                             android:layout_gravity="right"
                             android:onClick="onClickAddDiceListener"
