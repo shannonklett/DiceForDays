@@ -294,6 +294,17 @@ public class MainActivity extends ActionBarActivity {
                         die.toggleLock();
                     }
                     break;
+                case MotionEvent.ACTION_UP:
+                    Log.d("Tag", Integer.toString(height));
+
+                    int x = (int) event.getRawX();
+                    int y = (int) event.getRawY();
+                    Log.d("Tag", Integer.toString(x));
+                    if (x < 100 && y > height - 100) {
+                        parent.removeView(v);
+                        diceOnScreen.remove(die);
+                    }
+                    break;
                 case MotionEvent.ACTION_MOVE:
                     if (!selectingLock) {
                         int x_cord = (int) event.getRawX();
@@ -306,8 +317,8 @@ public class MainActivity extends ActionBarActivity {
                             y_cord = height;
                         }
 
-                        layoutParams.x = x_cord - 75;
-                        layoutParams.y = y_cord - 75;
+                        layoutParams.x = x_cord - layoutParams.width/2;
+                        layoutParams.y = y_cord - 100;
 
                         v.setLayoutParams(layoutParams);
                     }
