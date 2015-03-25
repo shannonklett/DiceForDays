@@ -58,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
     ArrayList<Die> diceOnScreen = new ArrayList<Die>();
     ArrayList<Die> diceList = new ArrayList<Die>();
     ArrayList<DieBunch> dieSaved = new ArrayList<DieBunch>();
+    ArrayList<DieBunch> diceOnScreenSaved = new ArrayList<DieBunch>();
 
 
 
@@ -85,6 +86,18 @@ public class MainActivity extends ActionBarActivity {
                 for (DieBunch point : dieSaved) {
                     diceList.add(point.getDieBunch());
                 }
+            /*
+            diceOnScreenSaved = getIntent().getParcelableArrayListExtra("dieOnScreenBunch");
+                //check to see if there were dice on screen previously
+                if(!(diceOnScreenSaved.isEmpty())){
+                    //add dice to diceOnScreen current arrayList
+                    for (DieBunch point : diceOnScreenSaved){
+                        diceOnScreen.add(point.getDieBunch());
+                    }
+                }
+            */
+
+
 
         }
         else
@@ -189,6 +202,12 @@ public class MainActivity extends ActionBarActivity {
 
     //add dice button listener inside fragment
     public void addDice (View v) {
+        for (Die point : diceOnScreen) {
+            System.out.println("Dice position: ");
+            System.out.println(point.getX());
+            System.out.println(point.getY());
+        }
+
         if (diceList.size() >= 8) {
             Context context = getApplicationContext();
             CharSequence text = "Your dice drawer is full! Delete dice before creating another!";
@@ -363,6 +382,9 @@ public class MainActivity extends ActionBarActivity {
                         layoutParams.y = y_cord - 100;
 
                         v.setLayoutParams(layoutParams);
+
+                        die.setX(layoutParams.x);
+                        die.setY(layoutParams.y);
                     }
                     break;
                 default:

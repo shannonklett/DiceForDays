@@ -33,13 +33,15 @@ public class Die implements Parcelable {
     private Drawable[] pipDrawables;
     private Drawable lockDrawable;
     private Boolean locked = false;
+    private int x;
+    private int y;
 
     public Die() {
-        this(6, Color.WHITE, Color.BLACK, false);
+        this(6, Color.WHITE, Color.BLACK, false, 150, 150);
     }
 
     public Die(int numSides) {
-        this(numSides, Color.WHITE, Color.BLACK, false);
+        this(numSides, Color.WHITE, Color.BLACK, false, 150, 150);
     }
 
     public Die(int numSides, int sideColour, int numColour, Boolean pips) {
@@ -51,7 +53,25 @@ public class Die implements Parcelable {
         if (numSides != 6) {
             pips = false;
         }
+
+        x = 150;
+        y = 150;
     }
+
+    public Die(int numSides, int sideColour, int numColour, Boolean pips,int x,int y) {
+        this.numSides = numSides;
+        setNumColour(numColour);
+        setSideColour(sideColour);
+        this.pips = pips;
+        currentNumber = numSides;
+        if (numSides != 6) {
+            pips = false;
+        }
+        this.x = x;
+        this.y = y;
+    }
+
+
 
     public void toggleLock() {
         locked = !locked;
@@ -189,7 +209,7 @@ public class Die implements Parcelable {
 
     @Override
     public Die clone() {
-        return new Die(this.numSides, this.sideColour, this.numColour, this.pips);
+        return new Die(this.numSides, this.sideColour, this.numColour, this.pips, this.x, this.y);
     }
 
 
@@ -252,14 +272,28 @@ public class Die implements Parcelable {
         return pips;
     }
 
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public void setX(int xVal) {x = xVal;}
+
+    public void setY(int yVal) {y = yVal;}
+
     //parcel part
     public Die(Parcel in){
-        String[] data = new String[4];
+        String[] data = new String[5];
 
         in.readStringArray(data);
         this.numSides = Integer.parseInt(data[0]);
         this.numColour = Integer.parseInt(data[1]);
         this.sideColour = Integer.parseInt(data[2]);
+        this.x = Integer.parseInt(data[3]);
+        this.y = Integer.parseInt(data[4]);
 
         int valuePips;
         if (!this.pips)
@@ -278,7 +312,7 @@ public class Die implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         // TODO Auto-generated method stub
-        dest.writeStringArray(new String[]{String.valueOf(this.numSides),String.valueOf(this.numColour), String.valueOf(this.numSides), String.valueOf(this.pips)});
+        dest.writeStringArray(new String[]{String.valueOf(this.numSides),String.valueOf(this.numColour), String.valueOf(this.numSides), String.valueOf(this.pips), String.valueOf(this.x), String.valueOf(this.y)});
     }
 
     public static final Parcelable.Creator<Die> CREATOR= new Parcelable.Creator<Die>() {

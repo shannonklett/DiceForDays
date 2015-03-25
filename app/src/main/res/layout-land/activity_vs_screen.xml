@@ -43,11 +43,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/diceSlider"
-        android:src="@drawable/diceslider"
+        android:src="@drawable/dicesliderdown"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="70dp"
         android:layout_gravity="right|top" />
 
     <ImageView
@@ -64,7 +64,7 @@
     <FrameLayout
         android:layout_weight="2"
         android:layout_width="390dp"
-        android:layout_height="220dp"
+        android:layout_height="240dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_alignParentTop="true"
