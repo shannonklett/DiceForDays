@@ -2,16 +2,14 @@ package com.example.owner.dicesimulator2015;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,7 +18,8 @@ public class CustomizationScreen extends ActionBarActivity {
 
     //default
     int numSides = 2 ;
-    int sideColour =Color.RED;
+    //Color s = getResources().getColor(android.R.color.dark_red);
+    int sideColour = Color.WHITE;
     int numColour= Color.BLACK;
     Boolean pips = false;
     Die preview;
@@ -77,32 +76,32 @@ public class CustomizationScreen extends ActionBarActivity {
             case R.id.redFace:
                 if (checked)
                     System.out.println("red");
-                    sideColour = Color.RED;
+                    sideColour = getResources().getColor(R.color.dark_red);
                     break;
             case R.id.orangeFace:
                 if (checked)
                     System.out.println("orange");
-                    sideColour = Color.DKGRAY;
+                    sideColour = getResources().getColor(R.color.orange);
                     break;
             case R.id.yellowFace:
                 if (checked)
-                    sideColour = Color.YELLOW;
+                    sideColour = getResources().getColor(R.color.yellow);
                     break;
             case R.id.greenFace:
                 if (checked)
-                    sideColour = Color.GREEN;
+                    sideColour = getResources().getColor(R.color.green);
                     break;
             case R.id.lBlueFace:
                 if (checked)
-                    sideColour = Color.CYAN;
+                    sideColour = getResources().getColor(R.color.blue);
                     break;
             case R.id.dBlueFace:
                 if (checked)
-                    sideColour = Color.BLUE;
+                    sideColour = getResources().getColor(R.color.purple);
                     break;
             case R.id.purpleFace:
                 if (checked)
-                    sideColour = Color.MAGENTA;
+                    sideColour = Color.DKGRAY;
                     break;
             case R.id.pinkFace:
                 if (checked)
@@ -121,32 +120,32 @@ public class CustomizationScreen extends ActionBarActivity {
             case R.id.redPip:
                 if (checked)
                     System.out.println("redpip");
-                numColour = Color.RED;
+                numColour = getResources().getColor(R.color.dark_red);
                     break;
             case R.id.orangePip:
                 if (checked)
                     System.out.println("orangepip");
-                    numColour = Color.BLACK;
+                    numColour = getResources().getColor(R.color.orange);
                     break;
             case R.id.yellowPip:
                 if (checked)
-                    numColour = Color.YELLOW;
+                    numColour = getResources().getColor(R.color.yellow);
                     break;
             case R.id.greenPip:
                 if (checked)
-                    numColour = Color.GREEN;
+                    numColour = getResources().getColor(R.color.green);
                     break;
             case R.id.lBluePip:
                 if (checked)
-                    numColour = Color.CYAN;
+                    numColour = getResources().getColor(R.color.blue);
                     break;
             case R.id.dBluePip:
                 if (checked)
-                    numColour = Color.BLUE;
+                    numColour = getResources().getColor(R.color.purple);
                     break;
             case R.id.purplePip:
                 if (checked)
-                    numColour = Color.MAGENTA;
+                    numColour = Color.BLACK;
                     break;
             case R.id.pinkPip:
                 if (checked)
