@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:state_checked="false" android:drawable="@drawable/redsquare" />
-    <item android:state_checked="true" android:drawable="@drawable/redsquare_sel" />
+    <item android:state_checked="false" android:drawable="@drawable/blackradio_square" />
+    <item android:state_checked="true" android:drawable="@drawable/blackradio_sel" />
     <item android:drawable="@drawable/d4full" /> <!-- default -->
 </selector>
