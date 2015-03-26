@@ -58,7 +58,6 @@ public class MainActivity extends ActionBarActivity {
     ArrayList<Die> diceOnScreen = new ArrayList<Die>();
     ArrayList<Die> diceList = new ArrayList<Die>();
     ArrayList<DieBunch> dieSaved = new ArrayList<DieBunch>();
-    ArrayList<DieBunch> diceOnScreenSaved = new ArrayList<DieBunch>();
 
 
 
