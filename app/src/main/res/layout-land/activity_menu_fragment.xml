@@ -1,0 +1,84 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.owner.dicesimulator2015.MenuFragment">
+
+    <FrameLayout
+        android:layout_width="400dp"
+        android:layout_height="180dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/menu_bg2"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/frameLayout">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/fragmentDiceSlider"
+            android:padding="10dp"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:rowOrderPreserved="false"
+            android:layout_marginTop="10dp"
+            android:id="@+id/gridLayout"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <ImageButton
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:text="Add Dice"
+                android:padding="0dp"
+                android:id="@+id/addDice"
+                android:onClick="addDice"
+                android:clickable="true"
+                android:src="@drawable/adddie"
+                android:scaleType="fitXY"
+                android:layout_row="0"
+                android:layout_column="4"
+                android:background="@null"
+                android:layout_alignTop="@+id/gridLayout"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                />
+
+            <ImageButton
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:id="@+id/removeButton"
+                android:layout_row="1"
+                android:layout_column="4"
+                android:src="@drawable/removedie"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:onClick="toggleRemove" />
+
+        </GridLayout>
+
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragmentDiceSlider"
+        android:src="@drawable/dicesliderup"
+        android:nestedScrollingEnabled="false"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_below="@+id/frameLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="70dp"
+        />
+
+</RelativeLayout>
