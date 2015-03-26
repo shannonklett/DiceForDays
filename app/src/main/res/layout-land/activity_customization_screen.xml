@@ -25,7 +25,7 @@
                 android:id="@+id/customFrame">
 
                 <TableLayout
-                    android:layout_width="507dp"
+                    android:layout_width="551dp"
                     android:layout_height="452dp"
                     android:gravity="center|center_vertical|center_horizontal"
                     android:layout_gravity="center_horizontal|bottom">
@@ -84,7 +84,8 @@
                             android:id="@+id/faceGroup"
 
                             android:layout_gravity="right|center_vertical"
-                            android:layout_marginRight="15dp">
+                            android:layout_marginRight="15dp"
+                            android:layout_marginLeft="5dp">
 
                             <RadioButton
                                 android:layout_width="wrap_content"
@@ -94,10 +95,12 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/redradio"
+                                android:background="@drawable/redbutton"
+                                android:button ="@null"
                                 android:onClick="onClickFaceListener"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp" />
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
+                                android:layout_marginBottom="5dp" />
 
                             <RadioButton
                                 android:layout_width="wrap_content"
@@ -107,10 +110,11 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/blackaradio"
+                                android:button ="@null"
+                                android:background="@drawable/orangebutton"
                                 android:onClick="onClickFaceListener"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp" />
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp" />
 
                             <RadioButton
                                 android:layout_width="wrap_content"
@@ -120,9 +124,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/yelloweradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/yellowbutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickFaceListener" />
 
                             <RadioButton
@@ -133,9 +138,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/greenradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/greenbutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickFaceListener" />
 
                             <RadioButton
@@ -146,9 +152,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/cyanradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/cyanbutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickFaceListener" />
 
                             <RadioButton
@@ -159,9 +166,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/blueradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/magentabutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickFaceListener" />
 
                             <RadioButton
@@ -172,9 +180,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/magentaradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/blackbutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickFaceListener" />
 
                             <RadioButton
@@ -185,9 +194,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/whiteradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/whitebutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickFaceListener"
                                 android:checked="true" />
 
@@ -219,9 +229,10 @@
                             android:weightSum="1"
                             android:padding="0dp"
                             android:id="@+id/pipsGroup"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginRight="0dp"
                             android:layout_gravity="center_horizontal|right"
-                            android:gravity="center_vertical|top">
+                            android:gravity="center_vertical|top"
+                            android:layout_marginLeft="5dp">
 
                             <RadioButton
                                 android:layout_width="wrap_content"
@@ -231,10 +242,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-
-                                android:background="@drawable/redradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/redbutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickNumberListener" />
 
                             <RadioButton
@@ -245,9 +256,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/blackaradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/orangebutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickNumberListener" />
 
                             <RadioButton
@@ -258,9 +270,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/yelloweradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/yellowbutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickNumberListener" />
 
                             <RadioButton
@@ -271,9 +284,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/greenradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/greenbutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickNumberListener" />
 
                             <RadioButton
@@ -284,9 +298,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/cyanradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/cyanbutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickNumberListener"
                                 android:gravity="top"
                                 android:layout_gravity="right" />
@@ -299,9 +314,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/blueradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/magentabutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickNumberListener" />
 
                             <RadioButton
@@ -312,9 +328,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/magentaradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/blackbutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickNumberListener"
                                 android:checked="true" />
 
@@ -326,9 +343,10 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:padding="0dp"
-                                android:background="@drawable/whiteradio"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:button ="@null"
+                                android:background="@drawable/whitebutton"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginRight="7dp"
                                 android:onClick="onClickNumberListener" />
                         </RadioGroup>
 
@@ -360,9 +378,9 @@
                             android:weightSum="1"
                             android:padding="0dp"
                             android:id="@+id/SidesGroup"
-                            android:layout_gravity="right|center_vertical"
-                            android:layout_marginRight="15dp"
-                            android:layout_marginBottom="0dp">
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginLeft="30dp">
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -370,11 +388,12 @@
                                 android:id="@+id/sides2"
                                 android:button="@null"
                                 android:background="@drawable/d2button"
-                                android:layout_marginLeft="0dp"
+                                android:layout_marginLeft="4dp"
                                 android:clickable="true"
                                 android:checked="false"
                                 android:nestedScrollingEnabled="false"
-                                android:onClick="onClickSidesListener" />
+                                android:onClick="onClickSidesListener"
+                                android:layout_marginRight="4dp" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -382,12 +401,13 @@
                                 android:id="@+id/sides4"
                                 android:button="@null"
                                 android:background="@drawable/d4button"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginLeft="4dp"
                                 android:clickable="true"
                                 android:checked="false"
                                 android:nestedScrollingEnabled="false"
                                 android:onClick="onClickSidesListener"
-                                android:layout_marginTop="5dp" />
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="4dp" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -395,11 +415,12 @@
                                 android:id="@+id/sides6"
                                 android:button="@null"
                                 android:background="@drawable/d6button"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginLeft="4dp"
                                 android:clickable="true"
                                 android:checked="false"
                                 android:nestedScrollingEnabled="false"
-                                android:onClick="onClickSidesListener" />
+                                android:onClick="onClickSidesListener"
+                                android:layout_marginRight="4dp" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -407,11 +428,12 @@
                                 android:id="@+id/sides8"
                                 android:button="@null"
                                 android:background="@drawable/d8button"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginLeft="4dp"
                                 android:clickable="true"
                                 android:checked="false"
                                 android:nestedScrollingEnabled="false"
-                                android:onClick="onClickSidesListener" />
+                                android:onClick="onClickSidesListener"
+                                android:layout_marginRight="4dp" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -419,11 +441,12 @@
                                 android:id="@+id/sides10"
                                 android:button="@null"
                                 android:background="@drawable/d10button"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginLeft="4dp"
                                 android:clickable="true"
                                 android:checked="false"
                                 android:nestedScrollingEnabled="false"
-                                android:onClick="onClickSidesListener" />
+                                android:onClick="onClickSidesListener"
+                                android:layout_marginRight="4dp" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -431,11 +454,12 @@
                                 android:id="@+id/sides12"
                                 android:button="@null"
                                 android:background="@drawable/d12button"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginLeft="4dp"
                                 android:clickable="true"
                                 android:checked="false"
                                 android:nestedScrollingEnabled="false"
-                                android:onClick="onClickSidesListener" />
+                                android:onClick="onClickSidesListener"
+                                android:layout_marginRight="4dp" />
 
                             <RadioButton
                                 android:layout_width="55dp"
@@ -443,11 +467,12 @@
                                 android:id="@+id/sides20"
                                 android:button="@null"
                                 android:background="@drawable/d20button"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginLeft="4dp"
                                 android:clickable="true"
                                 android:checked="false"
                                 android:nestedScrollingEnabled="false"
-                                android:onClick="onClickSidesListener" />
+                                android:onClick="onClickSidesListener"
+                                android:layout_marginRight="4dp" />
                         </RadioGroup>
 
                     </TableRow>
